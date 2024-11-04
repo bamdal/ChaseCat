@@ -11,37 +11,36 @@ AJMS_PoolFactory::AJMS_PoolFactory()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
-
+	
 }
 
 void AJMS_PoolFactory::InitializePool()
 {
-	CreatePoolChild();
-}
-
-void AJMS_PoolFactory::CreatePoolChild()
-{
 	SpawnedChildPoolManagers.SetNum(PoolingActors.Num());
-	for (int32 i =0; i < PoolingActors.Num(); i++)
+	for (TSubclassOf<AJMS_ChildPoolManager> Element : PoolingActors)
 	{
-		TSubclassOf<AJMS_ChildPoolManager> PoolChildClass = PoolingActors[i];
+		CreatePoolChild(Element);
 		
-		if (PoolChildClass != nullptr)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, "Creating Actor");
-			AJMS_ChildPoolManager* SpawnedChild = GetWorld()->SpawnActor<AJMS_ChildPoolManager>(PoolChildClass, this->GetActorLocation(), FRotator(0,0,0));
-			SpawnedChild->AttachToActor(this,FAttachmentTransformRules::SnapToTargetIncludingScale);
-			SpawnedChild->InitializePawnChild();
-			SpawnedChildPoolManagers[i] = SpawnedChild;
-		}
-		else
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "null PoolChildClass");
-		}
 	}
 }
 
-AJMS_ChildPawn* AJMS_PoolFactory::GetObject(E_ChildPoolName ObjectName, FVector Location, FRotator Rotation)
+void AJMS_PoolFactory::CreatePoolChild(TSubclassOf<AJMS_ChildPoolManager> FactoryManager)
+{
+	if (FactoryManager != nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, "Creating Actor");
+		AJMS_ChildPoolManager* SpawnedChild = GetWorld()->SpawnActor<AJMS_ChildPoolManager>(FactoryManager, this->GetActorLocation(), FRotator::ZeroRotator);
+		SpawnedChild->AttachToActor(this,FAttachmentTransformRules::SnapToTargetIncludingScale);
+		SpawnedChild->InitializePawnChild();
+		SpawnedChildPoolManagers.Add(SpawnedChild);
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "null PoolChildClass");
+	}
+}
+
+AJMS_ChildPawn* AJMS_PoolFactory::GetFactoryObject(E_ChildPoolName ObjectName, FVector Location, FRotator Rotation, float Life)
 {
 	for (AJMS_ChildPoolManager* Element : SpawnedChildPoolManagers)
 	{
@@ -51,7 +50,6 @@ AJMS_ChildPawn* AJMS_PoolFactory::GetObject(E_ChildPoolName ObjectName, FVector 
 		}
 	}
 	return nullptr;
-
 }
 
 
@@ -59,8 +57,6 @@ AJMS_ChildPawn* AJMS_PoolFactory::GetObject(E_ChildPoolName ObjectName, FVector 
 void AJMS_PoolFactory::BeginPlay()
 {
 	Super::BeginPlay();
-
-
 	InitializePool();
 }
 

@@ -63,7 +63,7 @@ AJMS_ChildPawn* AJMS_ChildPoolManager::GetChild(FVector Location, FRotator Rotat
 		PoolChilds.Dequeue(child);
 	}
 	child->ObjectEnabled(Location,Rotation);
-	
+	child->ObjectEnabled(Location,Rotation);
 	return child;
 }
 

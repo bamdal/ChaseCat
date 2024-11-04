@@ -5,23 +5,17 @@
 
 #include "ObjectPool/JMS_PoolFactory.h"
 
-AJMS_PoolFactory* UJMS_MassGameInstance::GetFactory()
-{
-	if(AJMS_PoolFactory* PoolFactory = CastChecked<AJMS_PoolFactory>(GEngine->GameSingleton))
-		return PoolFactory;
 
-#if WITH_EDITOR
-	UE_LOG(LogTemp, Error, TEXT("Invalid PoolFactory"));
-#endif
-	
-	return NewObject<AJMS_PoolFactory>();;
-}
 
 
 void UJMS_MassGameInstance::Init()
 {
 	Super::Init();
-
+	
+	if(FactoryInit)
+	{
+		PoolFactory = GetWorld()->SpawnActor<AJMS_PoolFactory>(PoolFactoryClass);
+	}
 
 }
 

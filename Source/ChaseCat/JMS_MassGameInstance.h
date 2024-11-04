@@ -16,11 +16,15 @@ class CHASECAT_API UJMS_MassGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditAnywhere)
+	bool FactoryInit = false;
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TSubclassOf<AJMS_PoolFactory> PoolClass;
+	TSubclassOf<AJMS_PoolFactory> PoolFactoryClass;
 
-	UFUNCTION(BlueprintPure, Category="Singletone")
-	AJMS_PoolFactory* GetFactory();
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	AJMS_PoolFactory* PoolFactory;
+	
 
 
 	virtual void Init() override;
