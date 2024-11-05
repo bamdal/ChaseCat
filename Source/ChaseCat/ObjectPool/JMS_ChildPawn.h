@@ -26,10 +26,10 @@ public:
 	UPROPERTY()
 	E_ChildPoolName PoolName;
 
-	UFUNCTION()
+	
 	void ObjectEnabled(FVector Location, FRotator Rotation);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ObjectDisabled();
 
 	/**
@@ -39,15 +39,34 @@ public:
 	UFUNCTION()
 	bool IsEnabled();
 
-	UFUNCTION()
-	void BackToFactory();
+
+
+
+	void SetPoolIndex(int32 index);
+	
+	UFUNCTION(BlueprintPure)
+	int32 GetPoolIndex();
+
+	
+	void SetChildPoolManager(class AJMS_ChildPoolManager* ChildPoolManager);
+
+	UFUNCTION(BlueprintPure)
+	AJMS_ChildPoolManager* GetChildPoolManager();
+
+
+	
 private:
 	UPROPERTY(Blueprintable)
 	bool bIsEnabled = false;
 
 	void IsVisible(bool visible);
 
+	AJMS_ChildPoolManager* ChildManager;
 	
+	/**
+	 * 고유 인덱스값(-1이면 에러)
+	 */
+	int32 PoolIndex = -1;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

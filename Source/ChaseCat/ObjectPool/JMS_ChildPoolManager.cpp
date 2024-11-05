@@ -13,10 +13,7 @@ AJMS_ChildPoolManager::AJMS_ChildPoolManager()
 
 }
 
-void AJMS_ChildPoolManager::ComeBackChild()
-{
-	
-}
+
 
 /**
  * pawn 자식 소환, 계층 설정
@@ -33,7 +30,10 @@ void AJMS_ChildPoolManager::InitializePawnChild()
 
 				SpawnedChild->AttachToActor(this,FAttachmentTransformRules::SnapToTargetIncludingScale);
 				SpawnedChild->PoolName = ManagerPoolName;
-				PoolChilds.Enqueue(SpawnedChild);
+				SpawnedChild->SetChildPoolManager(this);
+				SpawnedChild->SetPoolIndex(MaxPoolIndex);
+				MaxPoolIndex++;
+				DisablePoolChilds.Enqueue(SpawnedChild);
 			}
 			else
 			{
@@ -52,18 +52,31 @@ void AJMS_ChildPoolManager::InitializePawnChild()
 }
 
 
-
-AJMS_ChildPawn* AJMS_ChildPoolManager::GetChild(FVector Location, FRotator Rotation)
+/**
+ * 매니저에서 자식 1개 스폰시키기
+ * @param Location 소환 좌표
+ * @param Rotation 소환 회전(z축도 돌아감)
+ * @param Life 객체 생명주기 (0미만 값이면 영구적 생존)
+ * @return 소환된 객체 하나
+ */
+AJMS_ChildPawn* AJMS_ChildPoolManager::GetChild(FVector Location, FRotator Rotation, float Life)
 {
 	AJMS_ChildPawn* child = nullptr;
-	PoolChilds.Dequeue(child);
-	if(child != nullptr)
+	DisablePoolChilds.Dequeue(child);
+	// 만일 pool 이 부족하게 되면 풀을 2배로 키움
+	if(child == nullptr)
 	{
 		MakeDoublePool();
-		PoolChilds.Dequeue(child);
+		DisablePoolChilds.Dequeue(child);
 	}
 	child->ObjectEnabled(Location,Rotation);
-	child->ObjectEnabled(Location,Rotation);
+	// 라이프를 설정했다면
+	if(Life > 0)
+	{
+		
+	}
+	
+	EnablePoolChilds.Emplace(child->GetPoolIndex(),child);
 	return child;
 }
 
@@ -72,30 +85,7 @@ AJMS_ChildPawn* AJMS_ChildPoolManager::GetChild(FVector Location, FRotator Rotat
  */
 void AJMS_ChildPoolManager::MakeDoublePool()
 {
-	if(PoolObject != nullptr)
-	{
-		for (int32 i = 0; i < PoolSize;i++)
-		{
-			AJMS_ChildPawn* SpawnedChild = GetWorld()->SpawnActor<AJMS_ChildPawn>(PoolObject,this->GetActorLocation(),FRotator::ZeroRotator);
-			if(ManagerPoolName != E_ChildPoolName::None)
-			{
-
-				SpawnedChild->AttachToActor(this,FAttachmentTransformRules::SnapToTargetIncludingScale);
-				SpawnedChild->PoolName = ManagerPoolName;
-				PoolChilds.Enqueue(SpawnedChild);
-			}
-			else
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Nothing EnumName");
-				break;
-			}
-
-		}
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Nothing ObjectPool");
-	}
+	InitializePawnChild();
 	PoolSize*=2;
 	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "Pool Size Up");
 }
@@ -107,11 +97,3 @@ void AJMS_ChildPoolManager::BeginPlay()
 	Super::BeginPlay();
 	
 }
-
-// Called every frame
-void AJMS_ChildPoolManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-

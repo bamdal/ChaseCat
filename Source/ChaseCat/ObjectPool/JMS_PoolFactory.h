@@ -15,10 +15,7 @@ class UJMS_PoolingActorComponent;
  * 여러개 스폰 안함
  * 비활성화시 팩토리로 돌아오기
  * 자체 수명
- * bool로 조건보고 GameInstance에서 Factory있으면 넘기고 없으면 소환
- * GameInstance에서 Factory접근
- * GameInstance에 연결해서 소환
- * AJMS_PoolFactory.cpp SpawnedChildPoolManagers 0번 null
+ * 소한된것 보관해뒀다가 일괄 디스폰도 만들기
  */
 
 UCLASS()
@@ -41,7 +38,7 @@ public:
 	/**
 	 * 소환된 PoolManagers
 	 */
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="ObjectPool")
 	TArray<AJMS_ChildPoolManager*> SpawnedChildPoolManagers;
 
 	
@@ -61,7 +58,5 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+
 };

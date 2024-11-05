@@ -30,38 +30,34 @@ public:
 	E_ChildPoolName ManagerPoolName = E_ChildPoolName::None;
 
 	/**
-	 * poolchild 배열
+	 * 비활성화된 poolchild queue
 	 */
-	TQueue<AJMS_ChildPawn*> PoolChilds;
+	TQueue<AJMS_ChildPawn*> DisablePoolChilds;
 
-	UFUNCTION()
-	void ComeBackChild();
+	/**
+	 * 활성화된 자식들(고유 인덱스값)
+	 */
+	UPROPERTY(BlueprintReadOnly, Category="ObjectPool")
+	TMap<int32,AJMS_ChildPawn*> EnablePoolChilds;
 
 	
-	UFUNCTION()
 	void InitializePawnChild();
-
 	
-
-
-
 
 	/**
 	 * 인덱스 순서에 맞는 자식하나 주기
 	 * @return 
 	 */
-	AJMS_ChildPawn* GetChild(FVector Location, FRotator Rotation);
+	AJMS_ChildPawn* GetChild(FVector Location, FRotator Rotation, float Life);
 
 private:
 	void MakeDoublePool();
 
+	int32 MaxPoolIndex = 0;
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };

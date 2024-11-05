@@ -16,7 +16,6 @@ AJMS_PoolFactory::AJMS_PoolFactory()
 
 void AJMS_PoolFactory::InitializePool()
 {
-	SpawnedChildPoolManagers.SetNum(PoolingActors.Num());
 	for (TSubclassOf<AJMS_ChildPoolManager> Element : PoolingActors)
 	{
 		CreatePoolChild(Element);
@@ -40,13 +39,21 @@ void AJMS_PoolFactory::CreatePoolChild(TSubclassOf<AJMS_ChildPoolManager> Factor
 	}
 }
 
+/**
+ * Enum값에 맞는 매니저로 연결해줌
+ * @param ObjectName 
+ * @param Location 
+ * @param Rotation 
+ * @param Life 
+ * @return 잘못되면 nullptr
+ */
 AJMS_ChildPawn* AJMS_PoolFactory::GetFactoryObject(E_ChildPoolName ObjectName, FVector Location, FRotator Rotation, float Life)
 {
 	for (AJMS_ChildPoolManager* Element : SpawnedChildPoolManagers)
 	{
 		if(Element->ManagerPoolName == ObjectName)
 		{
-			return Element->GetChild(Location,Rotation);
+			return Element->GetChild(Location,Rotation,Life);
 		}
 	}
 	return nullptr;
@@ -60,10 +67,4 @@ void AJMS_PoolFactory::BeginPlay()
 	InitializePool();
 }
 
-// Called every frame
-void AJMS_PoolFactory::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 
