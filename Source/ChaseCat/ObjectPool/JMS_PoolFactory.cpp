@@ -59,6 +59,17 @@ AJMS_ChildPawn* AJMS_PoolFactory::GetFactoryObject(E_ChildPoolName ObjectName, F
 	return nullptr;
 }
 
+void AJMS_PoolFactory::DespawnPoolChild(E_ChildPoolName ObjectName)
+{
+	for (AJMS_ChildPoolManager* Element : SpawnedChildPoolManagers)
+	{
+		if(Element->ManagerPoolName == ObjectName)
+		{
+			return Element->DespawnAllChild();
+		}
+	}
+}
+
 
 // Called when the game starts or when spawned
 void AJMS_PoolFactory::BeginPlay()

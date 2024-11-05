@@ -13,7 +13,6 @@ class UJMS_PoolingActorComponent;
 
 /*
  * 여러개 스폰 안함
- * 비활성화시 팩토리로 돌아오기
  * 자체 수명
  * 소한된것 보관해뒀다가 일괄 디스폰도 만들기
  */
@@ -53,6 +52,12 @@ public:
 	UFUNCTION(BlueprintCallable,Blueprintable,Category="ObjectPool")
 	AJMS_ChildPawn* GetFactoryObject(E_ChildPoolName ObjectName,FVector Location = FVector::ZeroVector, FRotator Rotation = FRotator::ZeroRotator,float Life = - 1.0f);
 
+	/**
+	 * 모든 오브젝트 비활성화
+	 * @param FactoryManager 
+	 */
+	UFUNCTION(BlueprintCallable,Blueprintable,Category="ObjectPool")
+	void DespawnPoolChild(E_ChildPoolName ObjectName);
 	
 protected:
 	// Called when the game starts or when spawned

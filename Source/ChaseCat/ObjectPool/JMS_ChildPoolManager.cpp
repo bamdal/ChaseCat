@@ -80,6 +80,16 @@ AJMS_ChildPawn* AJMS_ChildPoolManager::GetChild(FVector Location, FRotator Rotat
 	return child;
 }
 
+void AJMS_ChildPoolManager::DespawnAllChild()
+{
+	TArray<AJMS_ChildPawn*> AllChildren;
+	EnablePoolChilds.GenerateValueArray(AllChildren);
+	for (AJMS_ChildPawn* Element : AllChildren)
+	{
+		Element->ObjectDisabled();
+	}
+}
+
 /**
  * pool을 다 사용해서 없을경우 2배 리스폰
  */
