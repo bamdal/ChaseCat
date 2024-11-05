@@ -36,7 +36,7 @@ public:
 	 * 현재 사용중인지 아닌지 판단
 	 * @return true 사용, false 미사용
 	 */
-	UFUNCTION()
+	UFUNCTION(BlueprintPure)
 	bool IsEnabled();
 
 
