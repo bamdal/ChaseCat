@@ -32,6 +32,7 @@ void AJMS_ChildPoolManager::InitializePawnChild()
 				SpawnedChild->PoolName = ManagerPoolName;
 				SpawnedChild->SetChildPoolManager(this);
 				SpawnedChild->SetPoolIndex(MaxPoolIndex);
+				
 				MaxPoolIndex++;
 				DisablePoolChilds.Enqueue(SpawnedChild);
 			}

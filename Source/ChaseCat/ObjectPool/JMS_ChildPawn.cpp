@@ -12,8 +12,6 @@ AJMS_ChildPawn::AJMS_ChildPawn()
 	PrimaryActorTick.bCanEverTick = true;
 	bIsEnabled = false;
 	IsVisible(bIsEnabled);
-
-
 }
 
 /**

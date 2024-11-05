@@ -4,6 +4,7 @@
 #include "JMS_PoolFactory.h"
 
 #include "JMS_ChildPoolManager.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AJMS_PoolFactory::AJMS_PoolFactory()
@@ -57,6 +58,18 @@ AJMS_ChildPawn* AJMS_PoolFactory::GetFactoryObject(E_ChildPoolName ObjectName, F
 		}
 	}
 	return nullptr;
+}
+
+TArray<AJMS_ChildPawn*> AJMS_PoolFactory::GetFactoryMultiObject(E_ChildPoolName ObjectName, FVector Location, FRotator Rotation,
+	int32 Count, float Life)
+{
+	TArray<AJMS_ChildPawn*> FactoryObjects;
+	for(int i =0; i< Count;i++)
+	{
+		FVector newLocation = Location + UKismetMathLibrary::RandomUnitVector()*100;
+		FactoryObjects.Add(GetFactoryObject(ObjectName,newLocation,Rotation,Life));
+	}
+	return FactoryObjects;
 }
 
 void AJMS_PoolFactory::DespawnPoolChild(E_ChildPoolName ObjectName)

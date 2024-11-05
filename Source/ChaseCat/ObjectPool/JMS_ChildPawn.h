@@ -55,14 +55,15 @@ public:
 
 
 	void SetChildLife(float Life);
-	
+
+	UFUNCTION(BlueprintCallable)	
+	void IsVisible(bool visible);
 private:
 	UPROPERTY(Blueprintable)
 	bool bIsEnabled = false;
 
 	float ChildLife = -1;
 	
-	void IsVisible(bool visible);
 
 	AJMS_ChildPoolManager* ChildManager;
 

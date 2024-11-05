@@ -52,6 +52,9 @@ public:
 	UFUNCTION(BlueprintCallable,Blueprintable,Category="ObjectPool")
 	AJMS_ChildPawn* GetFactoryObject(E_ChildPoolName ObjectName,FVector Location = FVector::ZeroVector, FRotator Rotation = FRotator::ZeroRotator,float Life = - 1.0f);
 
+	UFUNCTION(BlueprintCallable,Blueprintable,Category="ObjectPool")
+	TArray<AJMS_ChildPawn*> GetFactoryMultiObject(E_ChildPoolName ObjectName,FVector Location = FVector::ZeroVector, FRotator Rotation = FRotator::ZeroRotator, int32 Count = 1 ,float Life = - 1.0f);
+	
 	/**
 	 * 모든 오브젝트 비활성화
 	 * @param FactoryManager 
