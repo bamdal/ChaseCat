@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "JMS_EnumPool.h"
 #include "GameFramework/Pawn.h"
+#include "DetourCrowdAIController.h"
 #include "JMS_ChildPawn.generated.h"
 
 enum class E_ChildPoolName : uint8;
