@@ -73,7 +73,7 @@ AJMS_ChildPawn* AJMS_ChildPoolManager::GetChild(FVector Location, FRotator Rotat
 	// 라이프를 설정했다면
 	if(Life > 0)
 	{
-		
+		child->SetChildLife(Life);
 	}
 	
 	EnablePoolChilds.Emplace(child->GetPoolIndex(),child);

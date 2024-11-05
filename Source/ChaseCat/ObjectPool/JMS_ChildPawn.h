@@ -54,14 +54,19 @@ public:
 	AJMS_ChildPoolManager* GetChildPoolManager();
 
 
+	void SetChildLife(float Life);
 	
 private:
 	UPROPERTY(Blueprintable)
 	bool bIsEnabled = false;
 
+	float ChildLife = -1;
+	
 	void IsVisible(bool visible);
 
 	AJMS_ChildPoolManager* ChildManager;
+
+	bool bHasLife = false;
 	
 	/**
 	 * 고유 인덱스값(-1이면 에러)

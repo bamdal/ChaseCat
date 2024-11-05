@@ -42,6 +42,8 @@ void AJMS_ChildPawn::ObjectDisabled()
 	}
 	GetChildPoolManager()->EnablePoolChilds.Remove(GetPoolIndex());
 	GetChildPoolManager()->DisablePoolChilds.Enqueue(this);
+	SetChildLife(-1);
+	bHasLife = false;
 	IsVisible(bIsEnabled);
 }
 
@@ -85,6 +87,13 @@ AJMS_ChildPoolManager* AJMS_ChildPawn::GetChildPoolManager()
 	return ChildManager;
 }
 
+void AJMS_ChildPawn::SetChildLife(float Life)
+{
+	
+	ChildLife = Life;
+	bHasLife =true;
+}
+
 /**
  * 게임내 활성, 비활성화 - 시야, 콜리전, tick
  * @param visible 활성 여부
@@ -108,6 +117,12 @@ void AJMS_ChildPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(bHasLife)
+	{
+		ChildLife -= DeltaTime;
+		if(ChildLife < 0)
+			ObjectDisabled();
+	}
 }
 
 // Called to bind functionality to input
