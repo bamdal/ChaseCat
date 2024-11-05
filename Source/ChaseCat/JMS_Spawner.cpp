@@ -31,6 +31,7 @@ TArray<AJMS_ChildPawn*> AJMS_Spawner::StartSpawning(E_ChildPoolName E_ObjectName
 				
 				ChildArrays = PoolFactory->GetFactoryMultiObject(E_ObjectName,Location,Rotation,Count,Life);
 
+				
 			}
 		}
 	}
