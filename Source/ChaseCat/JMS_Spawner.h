@@ -24,6 +24,9 @@ public:
 	int32 SpawnCount = 5;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int32 SpawnMulti = 1;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	E_ChildPoolName ObjectName;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
@@ -39,7 +42,10 @@ public:
 	AJMS_Spawner();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<AJMS_ChildPawn*> StartSpawning(E_ChildPoolName E_ObjectName, FVector Location, FRotator Rotation, int32 Count, float Life);
+	TArray<AJMS_ChildPawn*> StartMultiSpawning(E_ChildPoolName E_ObjectName, FVector Location, FRotator Rotation, int32 MultiCount, float Life);
+
+	UFUNCTION(BlueprintCallable)
+	AJMS_ChildPawn* Startspawning(E_ChildPoolName E_ObjectName, FVector Location, FRotator Rotation, float Life);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -16,8 +16,8 @@ AJMS_Spawner::AJMS_Spawner()
 
 }
 
-TArray<AJMS_ChildPawn*> AJMS_Spawner::StartSpawning(E_ChildPoolName E_ObjectName, FVector Location, FRotator Rotation,
-	int32 Count, float Life)
+TArray<AJMS_ChildPawn*> AJMS_Spawner::StartMultiSpawning(E_ChildPoolName E_ObjectName, FVector Location, FRotator Rotation,
+	int32 MultiCount, float Life)
 {
 	TArray<AJMS_ChildPawn*> ChildArrays;
 	if(BeginSpawn)
@@ -29,13 +29,35 @@ TArray<AJMS_ChildPawn*> AJMS_Spawner::StartSpawning(E_ChildPoolName E_ObjectName
 			if(PoolFactory != nullptr)
 			{
 				
-				ChildArrays = PoolFactory->GetFactoryMultiObject(E_ObjectName,Location,Rotation,Count,Life);
+				ChildArrays = PoolFactory->GetFactoryMultiObject(E_ObjectName,Location,Rotation,MultiCount,Life);
 
 				
 			}
 		}
 	}
 	return ChildArrays;
+}
+
+AJMS_ChildPawn* AJMS_Spawner::Startspawning(E_ChildPoolName E_ObjectName, FVector Location, FRotator Rotation,
+	float Life)
+{
+	AJMS_ChildPawn* Child = nullptr;
+	if(BeginSpawn)
+	{
+		UJMS_MassGameInstance* GI = Cast<UJMS_MassGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		if(GI != nullptr)
+		{
+			AJMS_PoolFactory* PoolFactory = GI->PoolFactory;
+			if(PoolFactory != nullptr)
+			{
+				
+				Child = PoolFactory->GetFactoryObject(E_ObjectName,Location,Rotation,Life);
+
+				
+			}
+		}
+	}
+	return Child;
 }
 
 // Called when the game starts or when spawned

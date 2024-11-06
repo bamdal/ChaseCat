@@ -66,7 +66,8 @@ TArray<AJMS_ChildPawn*> AJMS_PoolFactory::GetFactoryMultiObject(E_ChildPoolName 
 	TArray<AJMS_ChildPawn*> FactoryObjects;
 	for(int i =0; i< Count;i++)
 	{
-		FVector newLocation = Location + UKismetMathLibrary::RandomUnitVector()*100;
+		FVector newLocation = Location + UKismetMathLibrary::RandomUnitVector()*200;
+		newLocation.Z = Location.Z;
 		FactoryObjects.Add(GetFactoryObject(ObjectName,newLocation,Rotation,Life));
 	}
 	return FactoryObjects;
