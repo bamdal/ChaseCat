@@ -3,6 +3,8 @@
 
 #include "JMS_MassGameInstance.h"
 
+#include "EngineUtils.h"
+#include "JMS_Spawner.h"
 #include "ObjectPool/JMS_PoolFactory.h"
 
 
@@ -17,6 +19,19 @@ void UJMS_MassGameInstance::Init()
 		PoolFactory = GetWorld()->SpawnActor<AJMS_PoolFactory>(PoolFactoryClass);
 	}
 
+	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this,&UJMS_MassGameInstance::ReloadLevel);
+
 }
+
+void UJMS_MassGameInstance::ReloadLevel(class UWorld* World)
+{
+
+	if(FactoryInit)
+	{
+		PoolFactory = GetWorld()->SpawnActor<AJMS_PoolFactory>(PoolFactoryClass);
+	}
+}
+
+
 
 

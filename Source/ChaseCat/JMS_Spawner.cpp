@@ -42,8 +42,7 @@ AJMS_ChildPawn* AJMS_Spawner::Startspawning(E_ChildPoolName E_ObjectName, FVecto
 	float Life)
 {
 	AJMS_ChildPawn* Child = nullptr;
-	if(BeginSpawn)
-	{
+
 		UJMS_MassGameInstance* GI = Cast<UJMS_MassGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		if(GI != nullptr)
 		{
@@ -56,7 +55,7 @@ AJMS_ChildPawn* AJMS_Spawner::Startspawning(E_ChildPoolName E_ObjectName, FVecto
 				
 			}
 		}
-	}
+	
 	return Child;
 }
 

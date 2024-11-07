@@ -6,6 +6,7 @@
 #include "Engine/GameInstance.h"
 #include "JMS_MassGameInstance.generated.h"
 
+class AJMS_Spawner;
 class AJMS_PoolFactory;
 /**
  * 
@@ -24,8 +25,12 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	AJMS_PoolFactory* PoolFactory;
+
 	
 
-
 	virtual void Init() override;
+
+	void ReloadLevel(class UWorld* World);
+
+	
 };
