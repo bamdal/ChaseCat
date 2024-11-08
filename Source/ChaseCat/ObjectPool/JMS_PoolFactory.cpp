@@ -71,7 +71,7 @@ TArray<AJMS_ChildPawn*> AJMS_PoolFactory::GetFactoryMultiObject(E_ChildPoolName 
 	return FactoryObjects;
 }
 
-void AJMS_PoolFactory::DespawnPoolChild(E_ChildPoolName ObjectName)
+TArray<AJMS_ChildPawn*> AJMS_PoolFactory::DespawnPoolChild(E_ChildPoolName ObjectName)
 {
 	for (AJMS_ChildPoolManager* Element : SpawnedChildPoolManagers)
 	{
@@ -80,6 +80,7 @@ void AJMS_PoolFactory::DespawnPoolChild(E_ChildPoolName ObjectName)
 			return Element->DespawnAllChild();
 		}
 	}
+	return TArray<AJMS_ChildPawn*>();
 }
 
 

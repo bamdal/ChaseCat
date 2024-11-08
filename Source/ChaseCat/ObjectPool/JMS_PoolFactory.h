@@ -60,7 +60,7 @@ public:
 	 * @param FactoryManager 
 	 */
 	UFUNCTION(BlueprintCallable,Blueprintable,Category="ObjectPool")
-	void DespawnPoolChild(E_ChildPoolName ObjectName);
+	TArray<AJMS_ChildPawn*> DespawnPoolChild(E_ChildPoolName ObjectName);
 	
 protected:
 	// Called when the game starts or when spawned

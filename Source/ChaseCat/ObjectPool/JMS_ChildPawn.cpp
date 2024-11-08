@@ -30,7 +30,7 @@ void AJMS_ChildPawn::ObjectEnabled(FVector Location, FRotator Rotation)
 /**
  * 부모 재설정후 Manager에 활성화 여부 재설정후 비활성화
  */
-void AJMS_ChildPawn::ObjectDisabled()
+AJMS_ChildPawn* AJMS_ChildPawn::ObjectDisabled()
 {
 	bIsEnabled = false;
 	// 부모가 팩토리가 아닐경우
@@ -43,6 +43,7 @@ void AJMS_ChildPawn::ObjectDisabled()
 	SetChildLife(-1);
 	bHasLife = false;
 	IsVisible(bIsEnabled);
+	return this;
 }
 
 /**

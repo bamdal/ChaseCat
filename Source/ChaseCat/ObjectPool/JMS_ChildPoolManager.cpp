@@ -81,7 +81,7 @@ AJMS_ChildPawn* AJMS_ChildPoolManager::GetChild(FVector Location, FRotator Rotat
 	return child;
 }
 
-void AJMS_ChildPoolManager::DespawnAllChild()
+TArray<AJMS_ChildPawn*> AJMS_ChildPoolManager::DespawnAllChild()
 {
 	TArray<AJMS_ChildPawn*> AllChildren;
 	EnablePoolChilds.GenerateValueArray(AllChildren);
@@ -89,6 +89,7 @@ void AJMS_ChildPoolManager::DespawnAllChild()
 	{
 		Element->ObjectDisabled();
 	}
+	return AllChildren;
 }
 
 /**

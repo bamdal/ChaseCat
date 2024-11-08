@@ -31,7 +31,7 @@ public:
 	void ObjectEnabled(FVector Location, FRotator Rotation);
 
 	UFUNCTION(BlueprintCallable)
-	void ObjectDisabled();
+	AJMS_ChildPawn* ObjectDisabled();
 
 	/**
 	 * 현재 사용중인지 아닌지 판단

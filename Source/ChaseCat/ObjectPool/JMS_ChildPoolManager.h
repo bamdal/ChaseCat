@@ -50,7 +50,7 @@ public:
 	 */
 	AJMS_ChildPawn* GetChild(FVector Location, FRotator Rotation, float Life);
 
-	void DespawnAllChild();
+	TArray<AJMS_ChildPawn*> DespawnAllChild();
 private:
 	void MakeDoublePool();
 
