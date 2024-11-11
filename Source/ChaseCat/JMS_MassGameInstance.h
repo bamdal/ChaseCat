@@ -26,7 +26,9 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	AJMS_PoolFactory* PoolFactory;
 
-	
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float WorldGravity = 980.0f;
 
 	virtual void Init() override;
 

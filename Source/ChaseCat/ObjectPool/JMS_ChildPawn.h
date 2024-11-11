@@ -85,4 +85,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable, Category = "NavLinkProxy")
+	FVector GetLeftVelocityAtTime(const FVector& InitialVelocity,float GRAVITY, float DeltaTime);
+	
+	UFUNCTION(BlueprintCallable, Category = "NavLinkProxy")
+	FVector GetRightVelocityAtTime(const FVector& InitialVelocity,float GRAVITY, float DeltaTime);
+
 };

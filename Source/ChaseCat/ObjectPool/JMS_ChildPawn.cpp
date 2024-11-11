@@ -131,3 +131,19 @@ void AJMS_ChildPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
+FVector AJMS_ChildPawn::GetLeftVelocityAtTime(const FVector& InitialVelocity, float GRAVITY, float DeltaTime)
+{
+	// 시간에 따른 수직 속도 변화 (중력 고려)
+	float VerticalVelocity = InitialVelocity.Z - GRAVITY * DeltaTime;
+
+	// 수평 속도는 일정
+	return FVector(InitialVelocity.X, InitialVelocity.Y, VerticalVelocity);
+}
+
+FVector AJMS_ChildPawn::GetRightVelocityAtTime(const FVector& InitialVelocity, float GRAVITY, float DeltaTime)
+{
+	FVector right = GetLeftVelocityAtTime(InitialVelocity,GRAVITY,DeltaTime);
+
+	return FVector(-right.X, -right.Y, -right.Z);
+}
+	
