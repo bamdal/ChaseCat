@@ -4,7 +4,7 @@
 #include "JMS_MassGameInstance.h"
 
 #include "EngineUtils.h"
-#include "JMS_Spawner.h"
+#include "Spawner/JMS_Spawner.h"
 #include "ObjectPool/JMS_PoolFactory.h"
 
 

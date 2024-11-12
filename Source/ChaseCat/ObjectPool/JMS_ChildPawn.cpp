@@ -103,6 +103,7 @@ void AJMS_ChildPawn::IsVisible(bool visible)
 		SetActorHiddenInGame(!visible);
 		SetActorEnableCollision(visible);
 		SetActorTickEnabled(visible);
+
 	}
 
 }

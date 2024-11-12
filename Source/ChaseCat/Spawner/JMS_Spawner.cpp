@@ -3,10 +3,10 @@
 
 #include "JMS_Spawner.h"
 
-#include "JMS_MassGameInstance.h"
+#include "../JMS_MassGameInstance.h"
 #include "Kismet/GameplayStatics.h"
-#include "ObjectPool/JMS_ChildPawn.h"
-#include "ObjectPool/JMS_PoolFactory.h"
+#include "../ObjectPool/JMS_ChildPawn.h"
+#include "../ObjectPool/JMS_PoolFactory.h"
 
 // Sets default values
 AJMS_Spawner::AJMS_Spawner()
