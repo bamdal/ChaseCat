@@ -20,7 +20,7 @@ AChaseCatCharacter::AChaseCatCharacter()
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
-		
+
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -47,7 +47,8 @@ AChaseCatCharacter::AChaseCatCharacter()
 
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	// Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
@@ -68,55 +69,99 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	// Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-	
+
 	// Set up action bindings
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
-		
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AChaseCatCharacter::Move);
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Completed, this,
+		                                   &AChaseCatCharacter::ResetVector);
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AChaseCatCharacter::Look);
 
 		// Interaction
-		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &AChaseCatCharacter::Interaction);
-		
+		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this,
+		                                   &AChaseCatCharacter::Interaction);
+
+
 		// Dash
-		EnhancedInputComponent->BindAction(DashAction,ETriggerEvent::Ongoing, this, &AChaseCatCharacter::Dash);
-		
+		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Ongoing, this, &AChaseCatCharacter::Dash);
+
 		// Tilt
-		EnhancedInputComponent->BindAction(LeftTiltAction,ETriggerEvent::Started, this, &AChaseCatCharacter::LeftTilt);
-		EnhancedInputComponent->BindAction(RightTiltAction,ETriggerEvent::Started,this,&AChaseCatCharacter::RIghtTilt);
+		EnhancedInputComponent->BindAction(LeftTiltAction, ETriggerEvent::Started, this, &AChaseCatCharacter::LeftTilt);
+		EnhancedInputComponent->BindAction(RightTiltAction, ETriggerEvent::Started, this,
+		                                   &AChaseCatCharacter::RIghtTilt);
 	}
 	else
 	{
-		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+		UE_LOG(LogTemplateCharacter, Error,
+		       TEXT(
+			       "'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."
+		       ), *GetNameSafe(this));
 	}
+}
+
+bool AChaseCatCharacter::DetachedCat(bool start)
+{
+	bool bDetached = false;
+	if (start)
+	{
+		if (MoveVector != FVector2D::ZeroVector)
+		{
+			BeforeVector += MoveVector;
+			if ((BeforeVector.IsZero() && !MoveVector.IsZero()) ||
+				(MoveVector.X != 0 && BeforeVector.X == 0 && BeforeVector.Y != 0) ||
+				(MoveVector.Y != 0 && BeforeVector.Y == 0 && BeforeVector.X != 0))
+			{
+				bDetached = true;
+			}
+
+			/*if(BeforeVector.X == 0 && BeforeVector.Y == 0)
+			{
+				bDetached = true;
+			}
+			if(MoveVector.X != 0 && BeforeVector.X == 0 && BeforeVector.Y != 0)
+			{
+				bDetached = true;
+			}
+			if(MoveVector.Y != 0 && BeforeVector.Y == 0 && BeforeVector.X != 0)
+			{
+				bDetached = true;
+			}*/
+		}
+
+		BeforeVector = MoveVector;
+	}
+	return bDetached;
 }
 
 void AChaseCatCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
-
+	MoveVector = MovementVector;
 	if (Controller != nullptr)
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
+
 		// get forward vector
 		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	
+
 		// get right vector 
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
@@ -124,6 +169,11 @@ void AChaseCatCharacter::Move(const FInputActionValue& Value)
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 		AddMovementInput(RightDirection, MovementVector.X);
 	}
+}
+
+void AChaseCatCharacter::ResetVector(const FInputActionValue& Value)
+{
+	MoveVector = FVector2D::ZeroVector;
 }
 
 void AChaseCatCharacter::Look(const FInputActionValue& Value)
@@ -142,7 +192,6 @@ void AChaseCatCharacter::Look(const FInputActionValue& Value)
 void AChaseCatCharacter::Interaction(const FInputActionValue& Value)
 {
 	UE_LOG(LogTemplateCharacter, Display, TEXT("Interaction triggered"));
-	
 }
 
 void AChaseCatCharacter::Dash(const FInputActionValue& Value)

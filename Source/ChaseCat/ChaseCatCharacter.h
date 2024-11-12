@@ -20,6 +20,7 @@ class AChaseCatCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
@@ -63,12 +64,20 @@ class AChaseCatCharacter : public ACharacter
 public:
 	AChaseCatCharacter();
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FVector2D MoveVector;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FVector2D BeforeVector;
+
+	UFUNCTION(BlueprintCallable)
+	bool DetachedCat(bool start);
 protected:
 
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
+	void ResetVector(const FInputActionValue& Value);
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 

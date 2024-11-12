@@ -19,7 +19,8 @@ public:
 	// Sets default values for this pawn's properties
 	AJMS_ChildPawn();
 
-
+	UPROPERTY(EditAnywhere,Category = "Debug")
+	bool IsFactory = true;
 	
 	/**
 	 * Manager가 부여해준 Enum이름 값
@@ -58,7 +59,7 @@ public:
 	void SetChildLife(float Life);
 
 	UFUNCTION(BlueprintCallable)	
-	void IsVisible(bool visible);
+	void IsVisible(bool visible = true);
 private:
 	UPROPERTY(Blueprintable)
 	bool bIsEnabled = false;

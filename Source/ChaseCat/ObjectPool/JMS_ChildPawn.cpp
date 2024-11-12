@@ -10,8 +10,7 @@ AJMS_ChildPawn::AJMS_ChildPawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	bIsEnabled = false;
-	IsVisible(bIsEnabled);
+
 }
 
 /**
@@ -99,15 +98,23 @@ void AJMS_ChildPawn::SetChildLife(float Life)
  */
 void AJMS_ChildPawn::IsVisible(bool visible)
 {
-	SetActorHiddenInGame(!visible);
-	SetActorEnableCollision(visible);
-	SetActorTickEnabled(visible);
+	if(IsFactory)
+	{
+		SetActorHiddenInGame(!visible);
+		SetActorEnableCollision(visible);
+		SetActorTickEnabled(visible);
+	}
+
 }
 
 // Called when the game starts or when spawned
 void AJMS_ChildPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	bIsEnabled = false;
+	IsVisible(bIsEnabled);
+
 	
 }
 
@@ -115,13 +122,14 @@ void AJMS_ChildPawn::BeginPlay()
 void AJMS_ChildPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 	if(bHasLife)
 	{
 		ChildLife -= DeltaTime;
 		if(ChildLife < 0)
 			ObjectDisabled();
 	}
+	
+
 }
 
 // Called to bind functionality to input
