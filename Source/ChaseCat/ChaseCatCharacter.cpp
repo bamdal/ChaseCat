@@ -86,6 +86,16 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AChaseCatCharacter::Look);
+
+		// Interaction
+		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &AChaseCatCharacter::Interaction);
+		
+		// Dash
+		EnhancedInputComponent->BindAction(DashAction,ETriggerEvent::Ongoing, this, &AChaseCatCharacter::Dash);
+		
+		// Tilt
+		EnhancedInputComponent->BindAction(LeftTiltAction,ETriggerEvent::Started, this, &AChaseCatCharacter::LeftTilt);
+		EnhancedInputComponent->BindAction(RightTiltAction,ETriggerEvent::Started,this,&AChaseCatCharacter::RIghtTilt);
 	}
 	else
 	{
@@ -127,4 +137,25 @@ void AChaseCatCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AChaseCatCharacter::Interaction(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemplateCharacter, Display, TEXT("Interaction triggered"));
+	
+}
+
+void AChaseCatCharacter::Dash(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemplateCharacter, Display, TEXT("Dash triggered"));
+}
+
+void AChaseCatCharacter::LeftTilt(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemplateCharacter, Display, TEXT("LeftTilt triggered"));
+}
+
+void AChaseCatCharacter::RIghtTilt(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemplateCharacter, Display, TEXT("Right tilt triggered"));
 }

@@ -6,6 +6,15 @@
 #include "Navigation/NavLinkProxy.h"
 #include "JMS_NavLinkProxy.generated.h"
 
+
+UENUM(BlueprintType)
+enum class ENavLinkDirectionBP : uint8
+{
+	BothWays      UMETA(DisplayName = "BothWays"),
+	LeftToRight   UMETA(DisplayName = "LeftToRight"),
+	RightToLeft   UMETA(DisplayName = "RightToLeft")
+};
+
 /**
  * 
  */
@@ -17,6 +26,23 @@ class CHASECAT_API AJMS_NavLinkProxy : public ANavLinkProxy
 public:
 
 	AJMS_NavLinkProxy();
+
+	UFUNCTION(BlueprintCallable, Category = "NavLink")
+	ENavLinkDirectionBP ConvertToBPDirection(ENavLinkDirection::Type Direction)
+	{
+		switch (Direction)
+		{
+		case ENavLinkDirection::BothWays:
+			return ENavLinkDirectionBP::BothWays;
+		case ENavLinkDirection::LeftToRight:
+			return ENavLinkDirectionBP::LeftToRight;
+		case ENavLinkDirection::RightToLeft:
+			return ENavLinkDirectionBP::RightToLeft;
+		default:
+			return ENavLinkDirectionBP::BothWays; // 기본값 설정
+		}
+	}
+	
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NavLinkProxy")
 	FVector StartPoint;     // A 지점
