@@ -72,6 +72,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool DetachedCat(bool start);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	float CapsuleHalfHeight = 100.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	float CapsuleRadius = 100.f;
 protected:
 
 	/** Called for movement input */
@@ -81,7 +87,7 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-	void Interaction(const FInputActionValue& Value);
+	void Find_Interaction(const FInputActionValue& Value);
 
 	void Dash(const FInputActionValue& Value);
 

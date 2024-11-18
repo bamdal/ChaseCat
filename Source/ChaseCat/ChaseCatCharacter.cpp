@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Interface/JMS_Interaction.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -93,11 +94,11 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 		// Interaction
 		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this,
-		                                   &AChaseCatCharacter::Interaction);
+		                                   &AChaseCatCharacter::Find_Interaction);
 
 
 		// Dash
-		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Ongoing, this, &AChaseCatCharacter::Dash);
+		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Started, this, &AChaseCatCharacter::Dash);
 
 		// Tilt
 		EnhancedInputComponent->BindAction(LeftTiltAction, ETriggerEvent::Started, this, &AChaseCatCharacter::LeftTilt);
@@ -113,6 +114,11 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	}
 }
 
+/**
+ * 전후, 좌우 키가 왕복으로 눌리는지 판단하는 함수
+ * @param start 함수 실행여부
+ * @return 떨어뜨리는 커멘드가 성공적으로 입력되었으면 true
+ */
 bool AChaseCatCharacter::DetachedCat(bool start)
 {
 	bool bDetached = false;
@@ -189,14 +195,68 @@ void AChaseCatCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-void AChaseCatCharacter::Interaction(const FInputActionValue& Value)
+/**
+ * 캐릭터의 전방에 탐색영역안에 Intercation 인터페이스가 있는지 체크후 있다면 상호작용
+ * @param Value 
+ */
+void AChaseCatCharacter::Find_Interaction(const FInputActionValue& Value)
 {
 	UE_LOG(LogTemplateCharacter, Display, TEXT("Interaction triggered"));
+	
+	TArray<FHitResult> HitResults;
+	FVector CapsuleStart = this->K2_GetActorLocation() + this->GetActorForwardVector() * 100.0f;
+	FVector CapsuleEnd = CapsuleStart + FVector(0, 0, CapsuleHalfHeight);
+	
+	// 트레이스 설정
+	FCollisionQueryParams TraceParams(FName(TEXT("InteractionCapsuleTrace")), false, this);
+	TraceParams.bReturnPhysicalMaterial = false;
+
+
+	
+	// 캡슐 트레이스 실행
+	bool bHit = GetWorld()->SweepMultiByChannel(
+		HitResults,
+		CapsuleStart,
+		CapsuleEnd,
+		FQuat::Identity,
+		ECC_Visibility, // 또는 적합한 채널로 설정
+		FCollisionShape::MakeCapsule(CapsuleRadius, CapsuleHalfHeight),
+		TraceParams
+	);
+	
+
+	// 디버그 캡슐 그리기 (디버깅용)
+	DrawDebugCapsule(
+		GetWorld(),
+		CapsuleStart,
+		CapsuleHalfHeight,
+		CapsuleRadius,
+		FQuat::Identity,
+		bHit ? FColor::Green : FColor::Red,
+		false,
+		2.0f
+	);
+
+	if(bHit)
+	{
+		for (const FHitResult& HitResult : HitResults)
+		{
+			USceneComponent* HitComponent = HitResult.GetComponent()->GetAttachParent();;
+			if(HitComponent && HitComponent->Implements<UJMS_Interaction>())
+			{
+				UE_LOG(LogTemplateCharacter, Display, TEXT("Find Interaction"));
+				IJMS_Interaction::Execute_Interaction(HitComponent);
+			}
+			
+
+		}
+	}
 }
 
 void AChaseCatCharacter::Dash(const FInputActionValue& Value)
 {
 	UE_LOG(LogTemplateCharacter, Display, TEXT("Dash triggered"));
+
 }
 
 void AChaseCatCharacter::LeftTilt(const FInputActionValue& Value)
