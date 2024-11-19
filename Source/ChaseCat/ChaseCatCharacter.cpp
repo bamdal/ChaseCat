@@ -98,7 +98,8 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 
 		// Dash
-		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Started, this, &AChaseCatCharacter::Dash);
+		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Started, this, &AChaseCatCharacter::Sprint);
+		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Completed, this, &AChaseCatCharacter::StopSprint);
 
 		// Tilt
 		EnhancedInputComponent->BindAction(LeftTiltAction, ETriggerEvent::Started, this, &AChaseCatCharacter::LeftTilt);
@@ -258,10 +259,14 @@ void AChaseCatCharacter::Find_Interaction(const FInputActionValue& Value)
 	}
 }
 
-void AChaseCatCharacter::Dash(const FInputActionValue& Value)
+void AChaseCatCharacter::Sprint(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemplateCharacter, Display, TEXT("Dash triggered"));
+	GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
+}
 
+void AChaseCatCharacter::StopSprint(const FInputActionValue& Value)
+{
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void AChaseCatCharacter::LeftTilt(const FInputActionValue& Value)

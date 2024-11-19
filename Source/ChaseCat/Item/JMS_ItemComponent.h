@@ -14,6 +14,8 @@ class UJMS_ItemFocus;
 class UWidgetComponent;
 class UBoxComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteractionEvent);
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class CHASECAT_API UJMS_ItemComponent : public USceneComponent, public IJMS_Interaction
 {
@@ -53,8 +55,13 @@ public:
 	UPROPERTY()
 	float InitialWidgetRotateWeight = 0.5f;
 
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-	virtual void Interaction_Implementation();
+	UFUNCTION(BlueprintCallable, meta=(DisplayName = "Interaction"), Category = "Interaction")
+	void Interaction_Implementation();
+
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FOnInteractionEvent OnInteractionEvent;
+
+	
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

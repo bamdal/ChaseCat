@@ -95,7 +95,8 @@ protected:
 
 	void Find_Interaction(const FInputActionValue& Value);
 
-	void Dash(const FInputActionValue& Value);
+	void Sprint(const FInputActionValue& Value);
+	void StopSprint(const FInputActionValue& Value);
 
 	void LeftTilt(const FInputActionValue& Value);
 
@@ -104,7 +105,12 @@ protected:
 	void LeftClick(const FInputActionValue& Value);
 
 	void RightClick(const FInputActionValue& Value);
-			
+
+
+	float WalkSpeed = 500.0f;
+
+	float SprintSpeed = 800.0f;
+	
 
 protected:
 	// APawn interface

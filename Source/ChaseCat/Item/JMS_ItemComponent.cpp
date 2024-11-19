@@ -39,11 +39,12 @@ UJMS_ItemComponent::UJMS_ItemComponent()
 /**
  * 상호작용 기능
  */
+
 void UJMS_ItemComponent::Interaction_Implementation()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,
 								 FString::Printf(TEXT("Find %s"), *this->GetAttachmentRoot()->GetName()));
-
+	OnInteractionEvent.Broadcast();
 }
 
 
@@ -76,6 +77,7 @@ void UJMS_ItemComponent::BeginPlay()
 	// 포커스 빌보드 기능을 위한 초기 회전 위치 설정
 	InitialWidgetRotation = WidgetComponent->K2_GetComponentRotation();
 
+
 	
 }
 
@@ -103,6 +105,7 @@ void UJMS_ItemComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		}
 	}
 }
+
 
 /**
  * 플레이어가 범위안에 들어옴
