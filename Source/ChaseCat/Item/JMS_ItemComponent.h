@@ -8,6 +8,7 @@
 #include "JMS_ItemComponent.generated.h"
 
 
+class AChaseCatCharacter;
 class USphereComponent;
 class UJMS_ItemFocus;
 class UWidgetComponent;
@@ -31,14 +32,26 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* FocusActivateArea;
 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
-	float AreaRadius = 300.0f;
-
-
 	UPROPERTY()
 	UJMS_ItemFocus* ItemFocusWidget;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category="Item")
+	AChaseCatCharacter* PlayerCharacter;
+	
+
+	
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
+	float AreaRadius = 300.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
+	bool FocusRotateFree = false;
+	
+	UPROPERTY()
+	FRotator InitialWidgetRotation; 
+
+	UPROPERTY()
+	float InitialWidgetRotateWeight = 0.5f;
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	virtual void Interaction_Implementation();
@@ -51,6 +64,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void OnComponentEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	
 
 	/*
 	 * 1. 플레이어가 근처로 오면 상호작용가능하다 표현하게 UI로 보이기

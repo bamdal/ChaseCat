@@ -103,7 +103,12 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		// Tilt
 		EnhancedInputComponent->BindAction(LeftTiltAction, ETriggerEvent::Started, this, &AChaseCatCharacter::LeftTilt);
 		EnhancedInputComponent->BindAction(RightTiltAction, ETriggerEvent::Started, this,
-		                                   &AChaseCatCharacter::RIghtTilt);
+		                                   &AChaseCatCharacter::RightTilt);
+
+		// Click
+		EnhancedInputComponent->BindAction(LeftClickAction, ETriggerEvent::Started, this, &AChaseCatCharacter::LeftClick);
+		EnhancedInputComponent->BindAction(RightClickAction, ETriggerEvent::Started, this,
+										   &AChaseCatCharacter::RightClick);
 	}
 	else
 	{
@@ -264,7 +269,15 @@ void AChaseCatCharacter::LeftTilt(const FInputActionValue& Value)
 	UE_LOG(LogTemplateCharacter, Display, TEXT("LeftTilt triggered"));
 }
 
-void AChaseCatCharacter::RIghtTilt(const FInputActionValue& Value)
+void AChaseCatCharacter::RightTilt(const FInputActionValue& Value)
 {
 	UE_LOG(LogTemplateCharacter, Display, TEXT("Right tilt triggered"));
+}
+
+void AChaseCatCharacter::LeftClick(const FInputActionValue& Value)
+{
+}
+
+void AChaseCatCharacter::RightClick(const FInputActionValue& Value)
+{
 }

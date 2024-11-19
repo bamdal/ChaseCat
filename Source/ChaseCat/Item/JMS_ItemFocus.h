@@ -13,11 +13,14 @@ UCLASS()
 class CHASECAT_API UJMS_ItemFocus : public UUserWidget
 {
 	GENERATED_BODY()
-	UJMS_ItemFocus();
+	
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="Item")
 	float AlphaDuration=0;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category="Item")
+	float AlphaWeight=5;
 
 	UFUNCTION()
 	void OnEnable();
@@ -28,8 +31,13 @@ public:
 	UFUNCTION()
 	void TimerAlpha(bool Up);
 
+	// 시그모이드 함수
+	float Sigmoid(float Time, float K, float T0, float YMin =0, float YMax=1);
+
+	float CurrentTime;
 	
-	FTimerHandle& TimerAlphaHandle;
+	virtual void NativeOnInitialized() override;
+	FTimerHandle TimerAlphaHandle;
 
 	
 };

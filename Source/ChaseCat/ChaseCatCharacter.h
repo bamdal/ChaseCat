@@ -45,21 +45,27 @@ class AChaseCatCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
-	/** Move Input Action */
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractionAction;
 
-	/** Look Input Action */
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* DashAction;
 
-	/** Move Input Action */
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LeftTiltAction;
 
-	/** Look Input Action */
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* RightTiltAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LeftClickAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* RightClickAction;
 
 public:
 	AChaseCatCharacter();
@@ -93,9 +99,11 @@ protected:
 
 	void LeftTilt(const FInputActionValue& Value);
 
-	void RIghtTilt(const FInputActionValue& Value);
+	void RightTilt(const FInputActionValue& Value);
 
+	void LeftClick(const FInputActionValue& Value);
 
+	void RightClick(const FInputActionValue& Value);
 			
 
 protected:
