@@ -28,7 +28,7 @@ void AJMS_PoolFactory::CreatePoolChild(TSubclassOf<AJMS_ChildPoolManager> Factor
 {
 	if (FactoryManager != nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, "Creating Actor");
+		//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Blue, "Creating Actor");
 		AJMS_ChildPoolManager* SpawnedChild = GetWorld()->SpawnActor<AJMS_ChildPoolManager>(FactoryManager, this->GetActorLocation(), FRotator::ZeroRotator);
 		SpawnedChild->AttachToActor(this,FAttachmentTransformRules::SnapToTargetIncludingScale);
 		SpawnedChild->InitializePawnChild();

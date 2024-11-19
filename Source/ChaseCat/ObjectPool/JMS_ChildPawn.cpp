@@ -100,10 +100,10 @@ void AJMS_ChildPawn::IsVisible(bool visible)
 {
 	if(IsFactory)
 	{
+		SpawnCat(visible);
 		SetActorHiddenInGame(!visible);
 		SetActorEnableCollision(visible);
 		SetActorTickEnabled(visible);
-
 	}
 
 }

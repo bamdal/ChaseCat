@@ -19,6 +19,9 @@ class CHASECAT_API UJMS_MassGameInstance : public UGameInstance
 public:
 	UPROPERTY(EditAnywhere)
 	bool FactoryInit = false;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool IsTest = false;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TSubclassOf<AJMS_PoolFactory> PoolFactoryClass;

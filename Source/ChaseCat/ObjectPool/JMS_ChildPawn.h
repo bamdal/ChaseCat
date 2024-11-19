@@ -41,7 +41,11 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool IsEnabled();
 
-
+	/**
+	 * 스폰시 AI 재시작
+	 */
+	UFUNCTION(BlueprintImplementableEvent,Category = "Spawn")
+	void SpawnCat(bool Spawn);
 
 
 	void SetPoolIndex(int32 index);

@@ -3,6 +3,8 @@
 
 #include "JMS_SpawnerTrigger.h"
 
+#include "JMS_Spawner.h"
+#include "ChaseCat/ObjectPool/JMS_ChildPoolManager.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -22,10 +24,16 @@ AJMS_SpawnerTrigger::AJMS_SpawnerTrigger()
 	
 }
 
+
+
+
 // Called when the game starts or when spawned
 void AJMS_SpawnerTrigger::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Capsule->OnComponentBeginOverlap.AddDynamic(this,&ThisClass::AJMS_SpawnerTrigger::OnComponentBeginOverlap);
+	Capsule->OnComponentEndOverlap.AddDynamic(this,&AJMS_SpawnerTrigger::OnComponentEndOverlap);
 	
 }
 
@@ -36,3 +44,19 @@ void AJMS_SpawnerTrigger::Tick(float DeltaTime)
 
 }
 
+
+
+
+void AJMS_SpawnerTrigger::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	for (AJMS_Spawner* Element : GetSpawner)
+	{
+		Element->Startspawning(E_ChildPoolName::Cat,Element->GetActorLocation()+FVector::UpVector*10,Element->GetActorRotation(),-1);
+	}
+}
+
+void AJMS_SpawnerTrigger::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+}

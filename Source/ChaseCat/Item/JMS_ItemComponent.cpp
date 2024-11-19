@@ -43,7 +43,7 @@ UJMS_ItemComponent::UJMS_ItemComponent()
 void UJMS_ItemComponent::Interaction_Implementation()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,
-								 FString::Printf(TEXT("Find %s"), *this->GetAttachmentRoot()->GetName()));
+								 FString::Printf(TEXT("Find %s"), *this->GetOwner()->GetName()));
 	OnInteractionEvent.Broadcast();
 }
 
@@ -60,7 +60,6 @@ void UJMS_ItemComponent::BeginPlay()
 	WidgetComponent->SetRelativeLocation(FVector(box.X, 0, 0));
 	WidgetComponent->SetRelativeScale3D(FVector(1, box.Y / 50, box.Z / 50));
 	//BoxComponent->SetRelativeRotation((this->GetAttachmentRoot()->GetRelativeRotation()).GetInverse());
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("%f, %f, %f"), box.X, box.Y, box.Z));
 
 	// 플레이어 인지 범위 오버랩
 	FocusActivateArea->OnComponentBeginOverlap.AddDynamic(this, &UJMS_ItemComponent::OnComponentBeginOverlap);

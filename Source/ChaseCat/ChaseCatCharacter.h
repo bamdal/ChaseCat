@@ -7,6 +7,8 @@
 #include "Logging/LogMacros.h"
 #include "ChaseCatCharacter.generated.h"
 
+class UJMS_UI_DestinationUI;
+class UJMS_MassGameInstance;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
@@ -84,8 +86,16 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float CapsuleRadius = 100.f;
+	
+
+
 protected:
 
+	UJMS_MassGameInstance* MassGI;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Destination UI")
+	TSubclassOf<UJMS_UI_DestinationUI> DestinationUI;
+	
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 

@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "JMS_MassGameInstance.h"
 #include "Interface/JMS_Interaction.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -60,6 +61,8 @@ void AChaseCatCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	MassGI = Cast<UJMS_MassGameInstance>(GetWorld()->GetGameInstance());
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -230,19 +233,22 @@ void AChaseCatCharacter::Find_Interaction(const FInputActionValue& Value)
 		TraceParams
 	);
 	
-
-	// 디버그 캡슐 그리기 (디버깅용)
-	DrawDebugCapsule(
-		GetWorld(),
-		CapsuleStart,
-		CapsuleHalfHeight,
-		CapsuleRadius,
-		FQuat::Identity,
-		bHit ? FColor::Green : FColor::Red,
-		false,
-		2.0f
-	);
-
+#if UE_EDITOR
+	if(MassGI->IsTest)
+	{
+		// 디버그 캡슐 그리기 (디버깅용)
+		DrawDebugCapsule(
+			GetWorld(),
+			CapsuleStart,
+			CapsuleHalfHeight,
+			CapsuleRadius,
+			FQuat::Identity,
+			bHit ? FColor::Green : FColor::Red,
+			false,
+			2.0f
+		);
+	}
+#endif
 	if(bHit)
 	{
 		for (const FHitResult& HitResult : HitResults)
