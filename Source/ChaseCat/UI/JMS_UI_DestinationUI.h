@@ -17,13 +17,12 @@ class CHASECAT_API UJMS_UI_DestinationUI : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-	FVector2D GetDestinationUILocation();
+	FVector2D GetDestinationUILocation(UJMS_UI_DestinationComponent* DestinationComponent);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetDestinationComponent(UJMS_UI_DestinationComponent* DestinationComponent);
-	
+
 protected:
 
-	UJMS_UI_DestinationComponent* DestComp;
 	
 };
