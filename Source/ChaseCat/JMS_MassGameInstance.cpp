@@ -54,14 +54,18 @@ bool UJMS_MassGameInstance::NextDestinationIndex()
 	TArray<int32> SortedKeys;
 	ActiveDestinationsMap.GetKeys(SortedKeys);
 
+
+	
 	// 현재 인덱스 위치를 찾음
 	int32 CurrentKeyIndex = SortedKeys.IndexOfByKey(PlayerSearchIndex);
+	GEngine->AddOnScreenDebugMessage(-1,3.0,FColor::Cyan,FString::Printf(TEXT("CurrentKeyIndex:%d"),CurrentKeyIndex));
 
 	// 현재 키가 유효하지 않거나 마지막 키일 경우
 	if (CurrentKeyIndex == INDEX_NONE || CurrentKeyIndex >= SortedKeys.Num() - 1)
 	{
 		return false; // 더 이상 유효한 다음 인덱스가 없음
 	}
+	
 
 	// 다음 유효한 키로 이동
 	PlayerSearchIndex = SortedKeys[CurrentKeyIndex + 1];
@@ -99,6 +103,13 @@ void UJMS_MassGameInstance::SortActiveDestinations()
 {
 	if (ActiveDestinations.Num() == 0)
 	{
+		auto It = ActiveDestinationsMap.CreateConstIterator();
+		if(It)
+		{
+			PlayerSearchIndex = It->Key;
+		}
+		
+		
 		return; // 정렬할 대상이 없을 때
 	}
 
@@ -106,7 +117,7 @@ void UJMS_MassGameInstance::SortActiveDestinations()
 	TArray<int32> SortedKeys;
 	ActiveDestinationsMap.GetKeys(SortedKeys);
 	SortedKeys.Sort(); // 오름차순 정렬
-
+	PlayerSearchIndex = SortedKeys[0];
 	// Map의 마지막 Key값 가져오기
 	int32 CurrentIndex = SortedKeys.Num() > 0 ? SortedKeys.Last() : 0;
 
