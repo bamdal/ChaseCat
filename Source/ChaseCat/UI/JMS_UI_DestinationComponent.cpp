@@ -3,6 +3,8 @@
 
 #include "JMS_UI_DestinationComponent.h"
 
+#include "ChaseCat/JMS_MassGameInstance.h"
+
 // Sets default values for this component's properties
 UJMS_UI_DestinationComponent::UJMS_UI_DestinationComponent()
 {
@@ -11,8 +13,25 @@ UJMS_UI_DestinationComponent::UJMS_UI_DestinationComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+	
 }
 
+
+bool UJMS_UI_DestinationComponent::FinishQuest()
+{
+	bool finish = MGI->NextDestinationIndex();
+	GEngine->AddOnScreenDebugMessage(-1,5.0f,FColor::Emerald,FString::Printf(TEXT("%i"),finish));
+	if(finish)
+	{
+		return true;
+	}
+	else
+	{
+		MGI->RemoveAllDestinationComponent();
+		return false;
+	}
+
+}
 
 // Called when the game starts
 void UJMS_UI_DestinationComponent::BeginPlay()
@@ -20,7 +39,10 @@ void UJMS_UI_DestinationComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+
+	// 내 게임인스턴스에 델리게이트에 목표지점 설정
+	MGI = Cast<UJMS_MassGameInstance>(GetWorld()->GetGameInstance());
+	MGI->AddActiveDestinationDelegate.ExecuteIfBound(this);
 }
 
 
@@ -31,4 +53,6 @@ void UJMS_UI_DestinationComponent::TickComponent(float DeltaTime, ELevelTick Tic
 
 	// ...
 }
+
+
 

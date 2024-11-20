@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "ChaseCatCharacter.generated.h"
 
+class UJMS_UI_DestinationComponent;
 class UJMS_UI_DestinationUI;
 class UJMS_MassGameInstance;
 class USpringArmComponent;
@@ -69,6 +70,9 @@ class AChaseCatCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* RightClickAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* FindDestinationAction;
+
 public:
 	AChaseCatCharacter();
 	
@@ -91,10 +95,11 @@ public:
 
 protected:
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	UJMS_MassGameInstance* MassGI;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Destination UI")
-	TSubclassOf<UJMS_UI_DestinationUI> DestinationUI;
+	UPROPERTY()
+	TArray<UJMS_UI_DestinationComponent*> DestinationComponents;
 	
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
@@ -115,6 +120,9 @@ protected:
 	void LeftClick(const FInputActionValue& Value);
 
 	void RightClick(const FInputActionValue& Value);
+
+	
+	void FindDestination(const FInputActionValue& Value);
 
 
 	float WalkSpeed = 500.0f;

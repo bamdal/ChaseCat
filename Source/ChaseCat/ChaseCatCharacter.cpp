@@ -113,6 +113,10 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EnhancedInputComponent->BindAction(LeftClickAction, ETriggerEvent::Started, this, &AChaseCatCharacter::LeftClick);
 		EnhancedInputComponent->BindAction(RightClickAction, ETriggerEvent::Started, this,
 										   &AChaseCatCharacter::RightClick);
+
+		// FindDestination
+		EnhancedInputComponent->BindAction(FindDestinationAction, ETriggerEvent::Started, this,
+								   &AChaseCatCharacter::FindDestination);
 	}
 	else
 	{
@@ -291,4 +295,9 @@ void AChaseCatCharacter::LeftClick(const FInputActionValue& Value)
 
 void AChaseCatCharacter::RightClick(const FInputActionValue& Value)
 {
+}
+
+void AChaseCatCharacter::FindDestination(const FInputActionValue& Value)
+{
+
 }

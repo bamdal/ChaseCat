@@ -52,17 +52,18 @@ FVector2D UJMS_UI_DestinationUI::GetDestinationUILocation(UJMS_UI_DestinationCom
 
 			FRotator LookRotation = UKismetMathLibrary::FindLookAtRotation(CameraLocation,TargetLocation);
 			float DeltaYaw = UKismetMathLibrary::NormalizeAxis(LookRotation.Yaw - CameraRotation.Yaw);
-			GEngine->AddOnScreenDebugMessage(-1,2.0f,FColor::Black,FString::Printf(TEXT("%f"),DeltaYaw));
+			float DeltaPitch = UKismetMathLibrary::NormalizeAxis(LookRotation.Pitch - CameraRotation.Pitch);
+			//GEngine->AddOnScreenDebugMessage(-1,2.0f,FColor::Black,FString::Printf(TEXT("%f"),LookRotation.Pitch ));
 
 			if(LookRotation.Pitch > 0)
 			{
 				// 맨 위
-				ScreenPosition.Y = ScreenCenterY;
+				ScreenPosition.Y = 0;
 			}
 			else
 			{
 				// 맨 아래
-				ScreenPosition.Y = ScreenCenterY;
+				ScreenPosition.Y = ViewportSize.Y;
 			}
 
 			if(DeltaYaw > 0)

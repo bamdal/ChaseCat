@@ -20,7 +20,7 @@ public:
 	FVector2D GetDestinationUILocation(UJMS_UI_DestinationComponent* DestinationComponent);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetDestinationComponent(UJMS_UI_DestinationComponent* DestinationComponent);
+	void SetDestinationComponent(UJMS_UI_DestinationComponent* DestinationComponent,float PlayTime);
 
 protected:
 
