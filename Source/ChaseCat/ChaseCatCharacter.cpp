@@ -47,6 +47,16 @@ AChaseCatCharacter::AChaseCatCharacter()
 	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
+	AttachArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("AttachArm"));
+	AttachArm->SetupAttachment(RootComponent);
+	AttachArm->TargetArmLength = 0.0f;	
+	AttachArm->bUsePawnControlRotation = true;
+	AttachArm->SetRelativeLocation(FVector(0.0f, 0.0f, 40.0f));
+
+	HandAttachPoint = CreateDefaultSubobject<USceneComponent>(TEXT("HandAttachPoint"));
+	HandAttachPoint->SetupAttachment(AttachArm);
+	HandAttachPoint->SetRelativeLocation(FVector(60.0f, 0.0f, 0.0f));
+
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
@@ -166,6 +176,17 @@ bool AChaseCatCharacter::DetachedCat(bool start)
 	return bDetached;
 }
 
+USceneComponent* AChaseCatCharacter::GetHandAttachPoint()
+{
+	if(HandAttachPoint->GetChildComponent(0) == nullptr)
+	{
+		return HandAttachPoint;
+		
+	}
+
+	return nullptr;
+}
+
 void AChaseCatCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
@@ -223,8 +244,7 @@ void AChaseCatCharacter::Find_Interaction(const FInputActionValue& Value)
 	// 트레이스 설정
 	FCollisionQueryParams TraceParams(FName(TEXT("InteractionCapsuleTrace")), false, this);
 	TraceParams.bReturnPhysicalMaterial = false;
-
-
+	
 	
 	// 캡슐 트레이스 실행
 	bool bHit = GetWorld()->SweepMultiByChannel(
@@ -232,7 +252,7 @@ void AChaseCatCharacter::Find_Interaction(const FInputActionValue& Value)
 		CapsuleStart,
 		CapsuleEnd,
 		FQuat::Identity,
-		ECC_Visibility, // 또는 적합한 채널로 설정
+		ECC_EngineTraceChannel2, // 또는 적합한 채널로 설정
 		FCollisionShape::MakeCapsule(CapsuleRadius, CapsuleHalfHeight),
 		TraceParams
 	);
@@ -262,6 +282,7 @@ void AChaseCatCharacter::Find_Interaction(const FInputActionValue& Value)
 			{
 				UE_LOG(LogTemplateCharacter, Display, TEXT("Find Interaction"));
 				IJMS_Interaction::Execute_Interaction(HitComponent);
+				break;
 			}
 			
 

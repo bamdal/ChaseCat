@@ -53,7 +53,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	bool FocusRotateFree = false;
 
-	// 체크시 상호작용후 강조UI가 사라진다
+	// 체크시 아이템이 일회용 판정이 되며 상호작용후 강조UI가 사라진다
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	bool IsDisposable = false;
 	

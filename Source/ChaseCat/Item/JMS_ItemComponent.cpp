@@ -5,6 +5,7 @@
 
 #include <cmath>
 
+#include "JMS_Item.h"
 #include "JMS_ItemFocus.h"
 #include "ChaseCat/ChaseCatCharacter.h"
 #include "Components/BoxComponent.h"
@@ -23,6 +24,8 @@ UJMS_ItemComponent::UJMS_ItemComponent()
 	// 아이템 상호작용 범위
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractionBox"));
 	BoxComponent->SetupAttachment(this);
+	BoxComponent->SetCollisionProfileName(TEXT("FindPlayerProfile"));
+	
 
 	// 아이템 강조 효과 위젯
 	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("InteractionWidget"));
@@ -45,9 +48,20 @@ void UJMS_ItemComponent::Interaction_Implementation()
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,
 								 FString::Printf(TEXT("Find %s"), *this->GetOwner()->GetName()));
 	if(IsDisposable)
-	{
+	{  
+		BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		WidgetComponent->SetVisibility(false);
 	}
+
+
+	
+	if(AJMS_Item* item = Cast<AJMS_Item>(this->GetOwner()))
+	{
+		
+		item->StartGrab();
+
+	}
+
 	OnInteractionEvent.Broadcast();
 }
 

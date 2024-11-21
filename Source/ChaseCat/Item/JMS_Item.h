@@ -15,9 +15,24 @@ public:
 	// Sets default values for this actor's properties
 	AJMS_Item();
 
-	UFUNCTION(BlueprintNativeEvent)
-	void OnInteraction();
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	USceneComponent* Root;
 	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UStaticMeshComponent* Mesh;
+
+	UFUNCTION(BlueprintNativeEvent)
+	bool StartGrab();
+
+	UFUNCTION(BlueprintCallable)
+	void EndGrab();
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bPossibleGrab = false;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	bool bIsGrab = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
