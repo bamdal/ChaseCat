@@ -44,6 +44,10 @@ void UJMS_ItemComponent::Interaction_Implementation()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,
 								 FString::Printf(TEXT("Find %s"), *this->GetOwner()->GetName()));
+	if(IsDisposable)
+	{
+		WidgetComponent->SetVisibility(false);
+	}
 	OnInteractionEvent.Broadcast();
 }
 

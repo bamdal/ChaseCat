@@ -8,15 +8,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ddf2c7b6-6cd7-4829-bdd7-7c4dea50832d" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChaseCat.uproject.DotSettings.user" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Test/BP_TestInput.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Test/BP_TestInput.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Character/BP_Character.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Character/BP_Character.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemComponent.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DpaMonitoringSettings">
+    <option name="autoShow" value="false" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -127,7 +130,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732147003459</updated>
-      <workItem from="1732147004713" duration="775000" />
+      <workItem from="1732147004713" duration="3204000" />
     </task>
     <servers />
   </component>
