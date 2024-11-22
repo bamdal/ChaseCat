@@ -7,15 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddf2c7b6-6cd7-4829-bdd7-7c4dea50832d" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChaseCat.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/ChaseCat.uproject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChaseCat.uproject.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/ChaseCat.uproject.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Character/BP_Character.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Character/BP_Character.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Factory/BP_JMS_MassGameInstance.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Factory/BP_JMS_MassGameInstance.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/JMS_MassGameInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/JMS_MassGameInstance.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="ddf2c7b6-6cd7-4829-bdd7-7c4dea50832d" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -200,7 +192,7 @@
       <updated>1732147003459</updated>
       <workItem from="1732147004713" duration="15453000" />
       <workItem from="1732233216935" duration="10969000" />
-      <workItem from="1732256704428" duration="7620000" />
+      <workItem from="1732256704428" duration="8170000" />
     </task>
     <servers />
   </component>
