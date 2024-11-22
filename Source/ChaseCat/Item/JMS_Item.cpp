@@ -64,6 +64,24 @@ void AJMS_Item::EndGrab()
 	
 }
 
+void AJMS_Item::ThrowItem()
+{
+	Mesh->AddImpulse(GetActorForwardVector()*1000,NAME_None,true);
+	ThrowItem_Implementation();
+}
+
+void AJMS_Item::Dissolve(float DissolveTime)
+{
+	int i = 0;
+	for (auto Element : Mesh->GetMaterials())
+	{
+		auto val = Mesh->CreateDynamicMaterialInstance(i,Element,Mesh->GetMaterialSlotNames()[i]);
+
+		val->SetScalarParameterValue(FName("Dissolve"),DissolveTime);
+		i++;
+	}
+}
+
 // Called when the game starts or when spawned
 void AJMS_Item::BeginPlay()
 {

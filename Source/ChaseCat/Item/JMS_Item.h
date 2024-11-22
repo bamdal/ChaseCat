@@ -23,15 +23,24 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	bool StartGrab();
-
-	UFUNCTION(BlueprintCallable)
-	void EndGrab();
-
+	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bPossibleGrab = false;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	bool bIsGrab = false;
+	
+	UFUNCTION(BlueprintCallable)
+	void EndGrab();
+
+	UFUNCTION(BlueprintCallable)
+	void ThrowItem();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ThrowItem_Implementation();
+
+	UFUNCTION(BlueprintCallable)
+	void Dissolve(float DissolveTime);
 
 protected:
 	// Called when the game starts or when spawned
