@@ -117,29 +117,33 @@ void UJMS_MassGameInstance::SortActiveDestinations()
 	TArray<int32> SortedKeys;
 	ActiveDestinationsMap.GetKeys(SortedKeys);
 	SortedKeys.Sort(); // 오름차순 정렬
-	PlayerSearchIndex = SortedKeys[0];
-	// Map의 마지막 Key값 가져오기
-	int32 CurrentIndex = SortedKeys.Num() > 0 ? SortedKeys.Last() : 0;
-
-	// ActiveDestinations의 요소를 순회하며 Map에 추가
-	for (UJMS_UI_DestinationComponent* Destination : ActiveDestinations)
+	if(SortedKeys.Num()>0)
 	{
-		if (!Destination)
+		PlayerSearchIndex = SortedKeys[0];
+		// Map의 마지막 Key값 가져오기
+		int32 CurrentIndex = SortedKeys.Num() > 0 ? SortedKeys.Last() : 0;
+
+		// ActiveDestinations의 요소를 순회하며 Map에 추가
+		for (UJMS_UI_DestinationComponent* Destination : ActiveDestinations)
 		{
-			continue; // 유효하지 않은 항목은 스킵
+			if (!Destination)
+			{
+				continue; // 유효하지 않은 항목은 스킵
+			}
+
+			// 기존 인덱스 값이 유효하지 않거나, Map에 포함되지 않은 경우
+			if (Destination->Index < 0 || !ActiveDestinationsMap.Contains(Destination->Index))
+			{
+				Destination->Index = ++CurrentIndex; // 새로운 Index 할당
+				ActiveDestinationsMap.Add(Destination->Index, Destination); // Map에 추가
+			}
+			else
+			{
+				// Map에 이미 포함된 경우, 인덱스를 그대로 유지
+				ActiveDestinationsMap[Destination->Index] = Destination;
+			}
 		}
 
-		// 기존 인덱스 값이 유효하지 않거나, Map에 포함되지 않은 경우
-		if (Destination->Index < 0 || !ActiveDestinationsMap.Contains(Destination->Index))
-		{
-			Destination->Index = ++CurrentIndex; // 새로운 Index 할당
-			ActiveDestinationsMap.Add(Destination->Index, Destination); // Map에 추가
-		}
-		else
-		{
-			// Map에 이미 포함된 경우, 인덱스를 그대로 유지
-			ActiveDestinationsMap[Destination->Index] = Destination;
-		}
 	}
 
 	// ActiveDestinations 배열도 Key값 기준으로 정렬
