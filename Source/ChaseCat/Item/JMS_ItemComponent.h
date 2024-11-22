@@ -33,8 +33,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	UWidgetComponent* WidgetComponent;
 
-	// 플레이어가 인지할수있는 범위
-	UPROPERTY(VisibleAnywhere)
+	// 플레이어를 인지할수있는 범위
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Item")
 	USphereComponent* FocusActivateArea;
 
 	UPROPERTY()

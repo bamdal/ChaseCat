@@ -24,8 +24,8 @@ UJMS_ItemComponent::UJMS_ItemComponent()
 	// 아이템 상호작용 범위
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractionBox"));
 	BoxComponent->SetupAttachment(this);
-	BoxComponent->SetCollisionProfileName(TEXT("FindPlayerProfile"));
-	
+	BoxComponent->SetCollisionProfileName(TEXT("ItemProfile"));
+
 
 	// 아이템 강조 효과 위젯
 	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("InteractionWidget"));
@@ -36,6 +36,8 @@ UJMS_ItemComponent::UJMS_ItemComponent()
 	FocusActivateArea = CreateDefaultSubobject<USphereComponent>(TEXT("InteractionFocusArea"));
 	FocusActivateArea->SetSphereRadius(AreaRadius);
 	FocusActivateArea->SetupAttachment(BoxComponent);
+	FocusActivateArea->SetCollisionProfileName(TEXT("FindPlayerProfile"));
+
 	// ...
 }
 
@@ -139,12 +141,14 @@ void UJMS_ItemComponent::OnComponentBeginOverlap(UPrimitiveComponent* Overlapped
 {
 	if (OverlappedComponent && OtherActor)
 	{
+		
 		PlayerCharacter = Cast<AChaseCatCharacter>(OtherActor);
 		if (PlayerCharacter != nullptr)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("OnComponentBeginOverlap: PlayerCharacter = %s, Item = %s"),
+	*GetNameSafe(PlayerCharacter), *GetName());
 			if (ItemFocusWidget != nullptr)
 			{
-				
 				ItemFocusWidget->OnEnable();
 			}
 		}
@@ -163,6 +167,11 @@ void UJMS_ItemComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedCo
 {
 	if (OverlappedComponent && OtherActor)
 	{
+		
+		UE_LOG(LogTemp, Warning, TEXT("OnComponentEndOverlap: PlayerCharacter = %s, Item = %s"),
+	*GetNameSafe(PlayerCharacter), *GetName());
+
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,*GetNameSafe(PlayerCharacter));
 		if (PlayerCharacter==OtherActor)
 		{
 			if (ItemFocusWidget != nullptr)

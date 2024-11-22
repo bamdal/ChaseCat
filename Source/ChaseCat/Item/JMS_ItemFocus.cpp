@@ -9,13 +9,16 @@
 
 void UJMS_ItemFocus::OnEnable()
 {
-	
+	GetWorld()->GetTimerManager().ClearTimer(TimerAlphaHandle);
+
 	GetWorld()->GetTimerManager().SetTimer(TimerAlphaHandle,FTimerDelegate::CreateUObject(this,&UJMS_ItemFocus::TimerAlpha,true),GetWorld()->GetDeltaSeconds(),true);
 
 }
 
 void UJMS_ItemFocus::OnDisable()
 {
+	GetWorld()->GetTimerManager().ClearTimer(TimerAlphaHandle);
+
 	GetWorld()->GetTimerManager().SetTimer(TimerAlphaHandle,FTimerDelegate::CreateUObject(this,&UJMS_ItemFocus::TimerAlpha,false),GetWorld()->GetDeltaSeconds(),true);
 
 }
