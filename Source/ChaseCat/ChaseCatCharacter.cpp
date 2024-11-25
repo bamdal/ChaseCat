@@ -10,8 +10,10 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "ISkeletonTreeItem.h"
 #include "JMS_MassGameInstance.h"
 #include "Interface/JMS_Interaction.h"
+#include "UI/JMS_AmbassadorWindow.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -368,5 +370,5 @@ void AChaseCatCharacter::SetIMCStartDialogueText()
 void AChaseCatCharacter::SetIMCEndDialogueText()
 {
 	ChangeMappingContext(DefaultMappingContext);
-
+	MassGI->JMS_AmbassadorWindow->SetVisibility(ESlateVisibility::Hidden);
 }
