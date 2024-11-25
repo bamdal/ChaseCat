@@ -24,7 +24,8 @@ public:
 
 	UPROPERTY()
 	UJMS_MassGameInstance* MGI;
-	
+
+	// true 면 다음에 갈게 남아있고 false면 이제 남아있는게 없다
 	UFUNCTION(BlueprintCallable)
 	bool FinishQuest();
 protected:

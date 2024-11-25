@@ -62,7 +62,7 @@ bool UJMS_MassGameInstance::NextDestinationIndex()
 	
 	// 현재 인덱스 위치를 찾음
 	int32 CurrentKeyIndex = SortedKeys.IndexOfByKey(PlayerSearchIndex);
-	GEngine->AddOnScreenDebugMessage(-1,3.0,FColor::Cyan,FString::Printf(TEXT("CurrentKeyIndex:%d"),CurrentKeyIndex));
+	GEngine->AddOnScreenDebugMessage(-1,3.0,FColor::Cyan,FString::Printf(TEXT("%s -> CurrentKeyIndex:%d"),*this->GetName(),CurrentKeyIndex));
 
 	// 현재 키가 유효하지 않거나 마지막 키일 경우
 	if (CurrentKeyIndex == INDEX_NONE || CurrentKeyIndex >= SortedKeys.Num() - 1)

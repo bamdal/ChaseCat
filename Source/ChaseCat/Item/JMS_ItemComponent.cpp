@@ -48,7 +48,7 @@ UJMS_ItemComponent::UJMS_ItemComponent()
 void UJMS_ItemComponent::Interaction_Implementation()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,
-								 FString::Printf(TEXT("Find %s"), *this->GetOwner()->GetName()));
+								 FString::Printf(TEXT("%s -> Find %s"),*this->GetName(), *this->GetOwner()->GetName()));
 	if(IsDisposable)
 	{  
 		BoxComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);

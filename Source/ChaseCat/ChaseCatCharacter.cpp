@@ -88,6 +88,20 @@ void AChaseCatCharacter::ChangeMappingContext(UInputMappingContext* ChangeIMC)
 			Subsystem->ClearAllMappings();
 			// Add talking context
 			Subsystem->AddMappingContext(ChangeIMC, 0);
+			if(ChangeIMC == TalkingMappingContext)
+			{
+				// 마우스 커서 보이기
+				PlayerController->bShowMouseCursor = true;
+
+	;
+			}
+			else if(ChangeIMC == DefaultMappingContext)
+			{
+				PlayerController->bShowMouseCursor = false;
+
+	
+
+			}
 		}
 	}
 }
@@ -370,5 +384,5 @@ void AChaseCatCharacter::SetIMCStartDialogueText()
 void AChaseCatCharacter::SetIMCEndDialogueText()
 {
 	ChangeMappingContext(DefaultMappingContext);
-	MassGI->JMS_AmbassadorWindow->SetVisibility(ESlateVisibility::Hidden);
+	MassGI->JMS_AmbassadorWindow->ToggleTextView();
 }

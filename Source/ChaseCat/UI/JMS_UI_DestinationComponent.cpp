@@ -20,7 +20,7 @@ UJMS_UI_DestinationComponent::UJMS_UI_DestinationComponent()
 bool UJMS_UI_DestinationComponent::FinishQuest()
 {
 	bool finish = MGI->NextDestinationIndex();
-	GEngine->AddOnScreenDebugMessage(-1,5.0f,FColor::Emerald,FString::Printf(TEXT("%i"),finish));
+	GEngine->AddOnScreenDebugMessage(-1,5.0f,FColor::Emerald,FString::Printf(TEXT("%s->  %i"),*this->GetName(),finish));
 	if(finish)
 	{
 		return true;

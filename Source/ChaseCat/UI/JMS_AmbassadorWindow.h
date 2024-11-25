@@ -6,7 +6,11 @@
 #include "Blueprint/UserWidget.h"
 #include "JMS_AmbassadorWindow.generated.h"
 
-class UMultiLineEditableText;
+
+class URichTextBlock;
+class UVerticalBox;
+class UVerticalBoxSlot;
+
 /**
  * 
  */
@@ -16,7 +20,16 @@ class CHASECAT_API UJMS_AmbassadorWindow : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	
+	// 선택지가 생길 vertical박스
+	UPROPERTY(EditAnywhere)
+	UVerticalBox* VerticalBox;
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateSelectBox(TArray<FText> Choices);
+
+	UFUNCTION()
+	void OnSelectButtonClicked();
+
 	UFUNCTION(BlueprintCallable)
 	void ToggleTextView();
 
@@ -34,7 +47,7 @@ public:
 
 	// 대화 출력 창
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	UMultiLineEditableText* DialogueTextBox;
+	URichTextBlock* DialogueTextBox;
 	
 	UPROPERTY(VisibleAnywhere,BLUEprintReadWrite)
 	FText logText;
@@ -59,4 +72,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool bIsTalking;
+
+	virtual void NativeOnInitialized() override;
 };
