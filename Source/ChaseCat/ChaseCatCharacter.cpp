@@ -70,9 +70,24 @@ AChaseCatCharacter::AChaseCatCharacter()
 void AChaseCatCharacter::BeginPlay()
 {
 	// Call the base class  
+	MassGI = Cast<UJMS_MassGameInstance>(GetWorld()->GetGameInstance());
 	Super::BeginPlay();
 
-	MassGI = Cast<UJMS_MassGameInstance>(GetWorld()->GetGameInstance());
+}
+
+void AChaseCatCharacter::ChangeMappingContext(UInputMappingContext* ChangeIMC)
+{
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			// Remove old contexts
+			Subsystem->ClearAllMappings();
+			// Add talking context
+			Subsystem->AddMappingContext(ChangeIMC, 0);
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -93,6 +108,7 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	// Set up action bindings
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
+		
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
@@ -127,6 +143,12 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		// FindDestination
 		EnhancedInputComponent->BindAction(FindDestinationAction, ETriggerEvent::Started, this,
 								   &AChaseCatCharacter::FindDestination);
+
+		EnhancedInputComponent->BindAction(NextTalkAction, ETriggerEvent::Started, this, &AChaseCatCharacter::NextTalk);
+		
+		EnhancedInputComponent->BindAction(OutTalkAction, ETriggerEvent::Started, this, &AChaseCatCharacter::OutTalk);
+
+		
 	}
 	else
 	{
@@ -135,6 +157,7 @@ void AChaseCatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 			       "'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."
 		       ), *GetNameSafe(this));
 	}
+
 }
 
 /**
@@ -175,6 +198,8 @@ bool AChaseCatCharacter::DetachedCat(bool start)
 	}
 	return bDetached;
 }
+
+
 
 USceneComponent* AChaseCatCharacter::GetHandAttachPoint()
 {
@@ -320,5 +345,28 @@ void AChaseCatCharacter::RightClick(const FInputActionValue& Value)
 
 void AChaseCatCharacter::FindDestination(const FInputActionValue& Value)
 {
+
+}
+
+void AChaseCatCharacter::NextTalk(const FInputActionValue& Value)
+{
+	MassGI->NextTextDialogueFunc();
+}
+
+void AChaseCatCharacter::OutTalk(const FInputActionValue& Value)
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,FString::Printf(TEXT("OutTalk triggered")));
+
+	SetIMCEndDialogueText();
+}
+
+void AChaseCatCharacter::SetIMCStartDialogueText()
+{
+	ChangeMappingContext(TalkingMappingContext);
+}
+
+void AChaseCatCharacter::SetIMCEndDialogueText()
+{
+	ChangeMappingContext(DefaultMappingContext);
 
 }

@@ -3,11 +3,13 @@
 
 #include "JMS_MassGameInstance.h"
 
+#include "ChaseCatCharacter.h"
 #include "EngineUtils.h"
 #include "PropertyAccess.h"
 #include "VisualizeTexture.h"
 #include "Spawner/JMS_Spawner.h"
 #include "ObjectPool/JMS_PoolFactory.h"
+#include "UI/JMS_AmbassadorWindow.h"
 #include "UI/JMS_UI_DestinationComponent.h"
 
 
@@ -22,6 +24,7 @@ void UJMS_MassGameInstance::Init()
 
 	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this,&UJMS_MassGameInstance::ReloadLevel);
 	AddActiveDestinationDelegate.BindUObject(this,&UJMS_MassGameInstance::AddDestinationComponent);
+	NextTextDialogue.BindUObject(this,&UJMS_MassGameInstance::NextTextDialogueFunc);
 
 }
 
@@ -39,6 +42,7 @@ void UJMS_MassGameInstance::BeginDestroy()
 	Super::BeginDestroy();
 
 	AddActiveDestinationDelegate.Unbind();
+	NextTextDialogue.Unbind();
 }
 
 
@@ -91,6 +95,13 @@ void UJMS_MassGameInstance::AddDestinationComponent(UJMS_UI_DestinationComponent
 		
 	}
 	
+}
+
+void UJMS_MassGameInstance::NextTextDialogueFunc()
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,FString::Printf(TEXT("NextTalk triggered")));
+	JMS_AmbassadorWindow->NextDialogueText();
+
 }
 
 void UJMS_MassGameInstance::RemoveAllDestinationComponent()

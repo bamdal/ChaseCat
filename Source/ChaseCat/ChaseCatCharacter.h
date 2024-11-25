@@ -3,10 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputActionValue.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "ChaseCatCharacter.generated.h"
 
+class UJMS_AmbassadorWindow;
 class UJMS_UI_DestinationComponent;
 class UJMS_UI_DestinationUI;
 class UJMS_MassGameInstance;
@@ -41,6 +43,10 @@ class AChaseCatCharacter : public ACharacter
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;
+
+	/** 대화 전용 매핑 컨택스트 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputMappingContext* TalkingMappingContext;
 
 	/** Jump Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -79,6 +85,13 @@ class AChaseCatCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* FindDestinationAction;
 
+	// 대화 넘기기
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* NextTalkAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* OutTalkAction;
+	
 public:
 	AChaseCatCharacter();
 	
@@ -97,6 +110,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float CapsuleRadius = 100.f;
 
+
+	UFUNCTION(BlueprintCallable)
+	void SetIMCStartDialogueText();
+
+	UFUNCTION(BlueprintCallable)
+	void SetIMCEndDialogueText();
+	
 	UFUNCTION(BlueprintCallable)
 	USceneComponent* GetHandAttachPoint();
 
@@ -128,10 +148,13 @@ protected:
 	void LeftClick(const FInputActionValue& Value);
 
 	void RightClick(const FInputActionValue& Value);
-
 	
 	void FindDestination(const FInputActionValue& Value);
+	
+	void NextTalk(const FInputActionValue& Value);
 
+	void OutTalk(const FInputActionValue& Value);
+	
 
 	float WalkSpeed = 500.0f;
 
@@ -144,6 +167,9 @@ protected:
 	
 	// To add mapping context
 	virtual void BeginPlay();
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeMappingContext(UInputMappingContext* ChangeIMC);
 
 public:
 	/** Returns CameraBoom subobject **/

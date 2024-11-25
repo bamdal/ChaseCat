@@ -29,6 +29,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	bool bIsGrab = false;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FName StartDialogueName = "";
 	
 	UFUNCTION(BlueprintCallable)
 	void EndGrab();
@@ -42,6 +45,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Dissolve(float DissolveTime);
 
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
