@@ -82,10 +82,10 @@ public:
 	void OnComponentEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ItemFocusEnable();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ItemFocusDisable();
 
 	

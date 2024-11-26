@@ -9,15 +9,10 @@
   <component name="ChangeListManager">
     <list default="true" id="51b42244-6654-4607-87dc-47ab79cef8cc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Character/BP_Character.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Character/BP_Character.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP/Factory/BP_JMS_MassGameInstance.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Factory/BP_JMS_MassGameInstance.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_Item.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_Item.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_Item.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_Item.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemFocus.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_ItemFocus.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_AmbassadorWindow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_AmbassadorWindow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_SelectButton.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_SelectButton.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_SelectButton.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_SelectButton.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -454,7 +449,7 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="cidr-memory-view://21" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://23" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Core/Private/Logging/StructuredLog.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Core/Private/Windows/WindowsErrorOutputDevice.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Core/Public/Delegates/Delegate.h" root0="FORCE_HIGHLIGHTING" />
@@ -471,6 +466,7 @@
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Private/DataTable.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Private/DataTableFunctionLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/Engine/Private/World.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/SlateCore/Public/Layout/Margin.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/SlateCore/Public/Styling/SlateColor.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/UMG/Private/Components/Button.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Epic Games/UE_5.4/Engine/Source/Runtime/UMG/Private/Components/PanelWidget.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -494,7 +490,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Uproject.ChaseCat.executor": "Debug",
+    "Uproject.ChaseCat.executor": "Run",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
@@ -590,7 +586,7 @@
       <updated>1732530591835</updated>
       <workItem from="1732530593945" duration="7395000" />
       <workItem from="1732579311761" duration="2163000" />
-      <workItem from="1732581495891" duration="17655000" />
+      <workItem from="1732581495891" duration="21710000" />
     </task>
     <servers />
   </component>

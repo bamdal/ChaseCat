@@ -6,6 +6,7 @@
 #include "Components/Button.h"
 #include "JMS_SelectButton.generated.h"
 
+class UVerticalBox;
 class UOverlay;
 class UImage;
 class UTextBlock;
@@ -24,7 +25,7 @@ private:
 
 
 	UPROPERTY()
-	UOverlay* OverlayWidget;
+	UVerticalBox* OverlayWidget;
 	
 	UPROPERTY()
 	FName NextDialogueID;

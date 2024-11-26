@@ -96,11 +96,8 @@ void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices, TArray<FName>
 			// 버튼 텍스트 설정
 			NewButton->SetButtonText(Choices[i]);
 
-			// 버튼에 텍스트 추가
-			//NewButton->AddChild(ButtonText);
+			// 버튼 설정 
 
-			// 버튼 스타일 설정 (옵션)
-			// NewButton->WidgetStyle = CustomStyle;
 
 			// 클릭 이벤트 동적 바인딩
 			NewButton->OnClicked.AddDynamic(this, &UJMS_AmbassadorWindow::OnSelectButtonClicked);

@@ -8,12 +8,14 @@
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/TextBlock.h"
+#include "Components/VerticalBox.h"
+#include "Components/VerticalBoxSlot.h"
 
 
 UJMS_SelectButton::UJMS_SelectButton()
 {
 	// CreateDefaultSubobject로 UImage 생성
-	OverlayWidget = CreateDefaultSubobject<UOverlay>(TEXT("OverlayWidget"));
+	OverlayWidget =  CreateDefaultSubobject<UVerticalBox>(TEXT("VerticalBoxWidget"));
 	
 	ButtonImage = CreateDefaultSubobject<UImage>(TEXT("ButtonImage"));
 
@@ -26,7 +28,7 @@ void UJMS_SelectButton::NativeConstruct()
 
 	if (OverlayWidget)
 	{
-		// Overlay를 버튼의 자식으로 추가
+		// OverlayWidget을 버튼의 자식으로 추가
 		UButtonSlot* ButtonSlot = Cast<UButtonSlot>(AddChild(OverlayWidget));
 		if (ButtonSlot)
 		{
@@ -35,29 +37,48 @@ void UJMS_SelectButton::NativeConstruct()
 			ButtonSlot->SetVerticalAlignment(VAlign_Fill);
 		}
 
-		// 이미지 추가
-		if (ButtonImage)
+		// UVerticalBox를 사용하여 이미지와 텍스트 배치
+		UVerticalBox* VerticalBox = NewObject<UVerticalBox>(this);
+		if (VerticalBox)
 		{
-			UOverlaySlot* ImageSlot = OverlayWidget->AddChildToOverlay(ButtonImage);
-			ImageSlot->SetHorizontalAlignment(HAlign_Fill);
-			ImageSlot->SetVerticalAlignment(VAlign_Fill);
-		}
-
-		// 텍스트 추가
-		if (ButtonText)
-		{
-			UOverlaySlot* TextSlot = OverlayWidget->AddChildToOverlay(ButtonText);
-			if (TextSlot)
+			// VerticalBox를 OverlayWidget에 추가
+			UVerticalBoxSlot* VerticalBoxSlot = OverlayWidget->AddChildToVerticalBox(VerticalBox);
+			if (VerticalBoxSlot)
 			{
-				TextSlot->SetHorizontalAlignment(HAlign_Center); // 텍스트 중앙 정렬
-				TextSlot->SetVerticalAlignment(VAlign_Center);
+				VerticalBoxSlot->SetHorizontalAlignment(HAlign_Fill);
+				VerticalBoxSlot->SetVerticalAlignment(VAlign_Fill);
 			}
 
-			// 텍스트 색상 및 기본 속성 설정
-			ButtonText->SetColorAndOpacity(FSlateColor(FColor::Black)); // 텍스트 흰색
-			ButtonText->SetText(FText::FromString(TEXT("Button"))); // 기본 텍스트
+			// 이미지 추가
+			if (ButtonImage)
+			{
+				UVerticalBoxSlot* ImageSlot = VerticalBox->AddChildToVerticalBox(ButtonImage);
+				if (ImageSlot)
+				{
+					ImageSlot->SetHorizontalAlignment(HAlign_Fill);
+					ImageSlot->SetVerticalAlignment(VAlign_Fill);
+				}
+			}
+
+			// 텍스트 추가
+			if (ButtonText)
+			{
+				UVerticalBoxSlot* TextSlot = VerticalBox->AddChildToVerticalBox(ButtonText);
+				if (TextSlot)
+				{
+					TextSlot->SetHorizontalAlignment(HAlign_Left); // 텍스트 왼쪽 정렬
+					TextSlot->SetVerticalAlignment(VAlign_Center); // 텍스트 중앙 정렬
+					TextSlot->SetPadding(FMargin(0.0f, 10.0f, 0.0f, 10.0f)); // 간격 추가
+				}
+
+				// 텍스트 색상 및 기본 속성 설정
+				ButtonText->SetColorAndOpacity(FSlateColor(FColor::Black)); // 텍스트 색상
+				ButtonText->SetText(FText::FromString(TEXT("Button"))); // 기본 텍스트
+				ButtonText->SetAutoWrapText(true); // 텍스트 자동 줄바꿈
+			}
 		}
 	}
+
 }
 
 void UJMS_SelectButton::OnSelectButtonClicked()
