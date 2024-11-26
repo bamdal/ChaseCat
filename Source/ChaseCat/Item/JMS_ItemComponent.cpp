@@ -24,7 +24,7 @@ UJMS_ItemComponent::UJMS_ItemComponent()
 	// 아이템 상호작용 범위
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractionBox"));
 	BoxComponent->SetupAttachment(this);
-	BoxComponent->SetCollisionProfileName(TEXT("ItemProfile"));
+	BoxComponent->SetCollisionProfileName(TEXT("ItemSensorProfile"));
 
 
 	// 아이템 강조 효과 위젯
@@ -181,4 +181,14 @@ void UJMS_ItemComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedCo
 			}
 		}
 	}
+}
+
+void UJMS_ItemComponent::ItemFocusEnable()
+{
+	ItemFocusWidget->OnEnable();
+}
+
+void UJMS_ItemComponent::ItemFocusDisable()
+{
+	ItemFocusWidget->OnDisable();
 }

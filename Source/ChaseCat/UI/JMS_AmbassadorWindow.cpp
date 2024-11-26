@@ -140,6 +140,7 @@ void UJMS_AmbassadorWindow::ToggleTextView()
 	if (GetVisibility() == ESlateVisibility::Visible)
 	{
 		SetVisibility(ESlateVisibility::Hidden);
+		bIsDialoguing = true;
 	}
 	else
 	{
@@ -156,7 +157,7 @@ void UJMS_AmbassadorWindow::WriteDialogueText(FName RowName)
 			RowName,TEXT("JMS_AmbassadorWindow"), true);
 		TalkingNameRichTextBlock->SetText(Row->NPCName);
 		logText = Row->DialogueText;
-		if (Row->TextVoice != nullptr)
+		if (TalkingItem && Row->TextVoice != nullptr)
 		{
 			TalkingItem->PlayVoice(Row->TextVoice);
 		}
@@ -226,7 +227,10 @@ void UJMS_AmbassadorWindow::SetDialogueTyping()
 void UJMS_AmbassadorWindow::StartDialogueText(FName Name, AJMS_Item* CalledItem)
 {
 	ToggleTextView();
-	TalkingItem = CalledItem;
+	if(TalkingItem)
+	{
+		TalkingItem = CalledItem;
+	}
 	WriteDialogueText(Name);
 }
 
@@ -238,13 +242,16 @@ void UJMS_AmbassadorWindow::NextDialogueText()
 		// 말하고 있는 중에 다음 버튼 눌렀으므로 대화창 끝까지 한번에 출력
 		GetWorld()->GetTimerManager().ClearTimer(TypingTimerHandle);
 		SetDialogueTyping();
-		TalkingItem->StopVoice();
 	}
 	else
 	{
 		if (NextTextName == TEXT(""))
 		{
-			TalkingItem->StopVoice();
+			if(TalkingItem)
+			{
+				TalkingItem->StopVoice();
+				
+			}
 			EndDialogueText();
 		}
 	}
@@ -259,7 +266,11 @@ void UJMS_AmbassadorWindow::NextDialogueText()
 		// 다음 텍스트로 넘어가기 가능할때
 		if (bIsDialoguing)
 		{
-			TalkingItem->StopVoice();
+			if(TalkingItem)
+			{
+				TalkingItem->StopVoice();
+				
+			}
 			WriteDialogueText(NextTextName);
 		}
 	}

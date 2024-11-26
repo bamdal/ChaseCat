@@ -34,7 +34,7 @@ void UJMS_ItemFocus::TimerAlpha(bool Up)
 	AlphaDuration = Sigmoid(CurrentTime,AlphaWeight,0.5f);
 	
 	//GEngine->AddOnScreenDebugMessage(-1,0.2f,FColor::Blue,FString::Printf(TEXT("AlphaDuration: %f"),AlphaDuration));
-	if(AlphaDuration > 0.95 || AlphaDuration < 0.05)
+	if((AlphaDuration > 0.95 && Up) || (AlphaDuration < 0.05 && !Up))
 	{
 		GetWorld()->GetTimerManager().ClearTimer(TimerAlphaHandle);
 		//GEngine->AddOnScreenDebugMessage(-1,0.2f,FColor::Red,FString::Printf(TEXT("Stop")));

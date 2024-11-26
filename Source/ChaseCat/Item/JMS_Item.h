@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "JMS_Item.generated.h"
 
+class UJMS_ItemComponent;
+
 UCLASS()
 class CHASECAT_API AJMS_Item : public AActor
 {
@@ -22,7 +24,10 @@ public:
 	UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	UAudioComponent* Audio;
+	UAudioComponent* TalikingSound;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UJMS_ItemComponent* ItemComponent;
 
 	UFUNCTION(BlueprintNativeEvent)
 	bool StartGrab();
@@ -53,6 +58,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void StopVoice();
+
+	UFUNCTION(BlueprintCallable)
+	void PlayerDefenceDropItem();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

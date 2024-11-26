@@ -81,11 +81,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void OnComponentEndOverlap( UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	
 
-	/*
-	 * 1. 플레이어가 근처로 오면 상호작용가능하다 표현하게 UI로 보이기
-	 */
+	UFUNCTION()
+	void ItemFocusEnable();
+
+	UFUNCTION()
+	void ItemFocusDisable();
+
+	
 
 protected:
 	// Called when the game starts

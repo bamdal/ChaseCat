@@ -3,6 +3,7 @@
 
 #include "JMS_Item.h"
 
+#include "JMS_ItemComponent.h"
 #include "ChaseCat/ChaseCatCharacter.h"
 #include "ChaseCat/JMS_MassGameInstance.h"
 #include "Components/AudioComponent.h"
@@ -21,8 +22,10 @@ AJMS_Item::AJMS_Item()
 	Mesh->SetRelativeRotation(FRotator(0, -90.0f, 0));
 	Mesh->SetCollisionProfileName(TEXT("ItemProfile"));
 
-	Audio = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
-	Audio->SetupAttachment(Root);
+	TalikingSound = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
+	TalikingSound->SetupAttachment(Root);
+
+
 
 }
 
@@ -31,6 +34,8 @@ AJMS_Item::AJMS_Item()
 
 bool AJMS_Item::StartGrab_Implementation()
 {
+	RootComponent->GetName();
+
 	if(bPossibleGrab)
 	{
 		bIsGrab = true;
@@ -42,8 +47,10 @@ bool AJMS_Item::StartGrab_Implementation()
 			{
 				// 콜리전 끄기
 				Mesh->SetSimulatePhysics(false);
+				Mesh->AttachToComponent(RootComponent,FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 				Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 				RootComponent->AttachToComponent(AttachHand,FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+				ItemComponent->ItemFocusDisable();
 				return true;
 			}
 		}
@@ -60,8 +67,8 @@ void AJMS_Item::EndGrab()
 
 		RootComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		Mesh->SetCollisionProfileName(TEXT("ItemProfile"));
-		Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		Mesh->SetSimulatePhysics(true);
+		Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+
 
 		
 	}
@@ -70,6 +77,9 @@ void AJMS_Item::EndGrab()
 
 void AJMS_Item::ThrowItem()
 {
+
+	Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	Mesh->SetSimulatePhysics(true);
 	Mesh->AddImpulse(GetActorForwardVector()*1000,NAME_None,true);
 	ThrowItem_Implementation();
 }
@@ -88,19 +98,58 @@ void AJMS_Item::Dissolve(float DissolveTime)
 
 void AJMS_Item::PlayVoice(USoundWave* NewSound)
 {
-	Audio->SetSound(NewSound);
-	Audio->Play();
+	if (TalikingSound !=nullptr)
+	{
+		TalikingSound->SetSound(NewSound);
+		TalikingSound->Play();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AJMS_Item::PlayVoice() - Audio is null."));
+	}
 }
 
 void AJMS_Item::StopVoice()
 {
-	Audio->Stop();
+
+	if (TalikingSound !=nullptr && TalikingSound->IsPlaying()) // Audio가 유효하고 재생 중일 때만 중지
+	{
+		TalikingSound->Stop();
+	}
+	else if (!TalikingSound) // Audio가 nullptr인 경우 로그 출력
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AJMS_Item::StopVoice() - Audio is null."));
+	}
+}
+
+void AJMS_Item::PlayerDefenceDropItem()
+{
+	if(bIsGrab)
+	{
+		EndGrab();
+		Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		Mesh->SetSimulatePhysics(true);
+	}
+
 }
 
 // Called when the game starts or when spawned
 void AJMS_Item::BeginPlay()
 {
 	Super::BeginPlay();
+
+	TArray<USceneComponent*> ChildComponents;
+	Root->GetChildrenComponents(true, ChildComponents);
+
+	for (auto ChildComponent : ChildComponents)
+	{
+		UJMS_ItemComponent* FoundComponent = Cast<UJMS_ItemComponent>(ChildComponent);
+		if(FoundComponent)
+		{
+			ItemComponent = FoundComponent;
+			return;
+		}
+	}
 	
 }
 
