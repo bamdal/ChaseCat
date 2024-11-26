@@ -4,6 +4,7 @@
 #include "JMS_AmbassadorWindow.h"
 
 #include "JMS_DialogueData.h"
+#include "JMS_SelectButton.h"
 #include "ChaseCat/ChaseCatCharacter.h"
 #include "Components/Button.h"
 
@@ -37,6 +38,12 @@ void UJMS_AmbassadorWindow::NativeOnInitialized()
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, TEXT("Failed to load DataTable_JMSDialogueData"));
 	}
 
+	DialogueTextBox = Cast<URichTextBlock>(GetWidgetFromName(TEXT("DialogueText")));
+	if(DialogueTextBox == nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(-1,10.0f,FColor::Red,FString::Printf(TEXT("%s DialogueTextBox is null"),*this->GetClass()->GetName()));
+
+	}
 
 	VerticalBox = Cast<UVerticalBox>(GetWidgetFromName(TEXT("SelectBox")));
 	if(VerticalBox == nullptr)
@@ -46,7 +53,7 @@ void UJMS_AmbassadorWindow::NativeOnInitialized()
 	}
 
 	TalkingNameRichTextBlock = Cast<URichTextBlock>(GetWidgetFromName(TEXT("TalkingName")));
-	if(VerticalBox == nullptr)
+	if(TalkingNameRichTextBlock == nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1,10.0f,FColor::Red,FString::Printf(TEXT("%s TalkingNameRichTextBlock is null"),*this->GetClass()->GetName()));
 
@@ -55,11 +62,11 @@ void UJMS_AmbassadorWindow::NativeOnInitialized()
 }
 
 
-void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices)
+void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices, TArray<FName> NextDialogueIDs)
 {
 	if (VerticalBox == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::Red, TEXT("VerticalBox is null! Cannot update SelectBox."));
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::Red, FString::Printf(TEXT("%s VerticalBox is null! Cannot update SelectBox."),*this->GetClass()->GetName()));
 		return;
 	}
 
@@ -70,25 +77,28 @@ void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices)
 	for (int32 i = 0; i < Choices.Num(); ++i)
 	{
 		// 버튼 생성
-		UButton* NewButton = NewObject<UButton>(this);
-		UTextBlock* ButtonText = NewObject<UTextBlock>(this);
+		UJMS_SelectButton* NewButton = NewObject<UJMS_SelectButton>(this);
+		NewButton->NativeConstruct();
+		//UTextBlock* ButtonText = NewObject<UTextBlock>(this);
 		// 선택지가 생겼으므로 넘기기 불가능
 		bIsDialoguing = false;
 
-		if (NewButton && ButtonText)
+		if (NewButton )
 		{
 			// 버튼 텍스트 설정
-			ButtonText->SetText(Choices[i]);
+			NewButton->SetButtonText(Choices[i]);
 
 			// 버튼에 텍스트 추가
-			NewButton->AddChild(ButtonText);
+			//NewButton->AddChild(ButtonText);
 
 			// 버튼 스타일 설정 (옵션)
 			// NewButton->WidgetStyle = CustomStyle;
 
 			// 클릭 이벤트 동적 바인딩
 			NewButton->OnClicked.AddDynamic(this, &UJMS_AmbassadorWindow::OnSelectButtonClicked);
-			ButtonIndexMap.Add(NewButton,i);
+			NewButton->SetIndex(i);
+			NewButton->SetNextNextDialogueID(NextDialogueIDs[i]);
+			ChoiceButtons.Add(NewButton);
 			// VerticalBox에 버튼 추가
 			VerticalBox->AddChild(NewButton);
 
@@ -103,16 +113,16 @@ void UJMS_AmbassadorWindow::OnSelectButtonClicked()
 {
 
 	// 클릭된 버튼을 매핑에서 찾기
-	for (const TPair<UButton*, int32>& Pair : ButtonIndexMap)
+	for (UJMS_SelectButton* Element : ChoiceButtons)
 	{
-		if (Pair.Key->IsPressed()) // 현재 눌린 버튼인지 확인
+		if (Element->IsHovered()) // 현재 눌린 버튼인지 확인
 		{
-			//인덱스 통해구하기
-			//NextTextName = Pair.Value;
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::Orange, FString::Printf(TEXT("%s -> %s"),*this->GetName(),*Element->GetName()));
+			NextTextName = Element->GetNextDialogueID();
 		}
 	}
+
 	
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::Orange, FString::Printf(TEXT("%s -> Button Click"),*this->GetName()));
 
 	bIsDialoguing = true;
 
@@ -141,8 +151,12 @@ void UJMS_AmbassadorWindow::WriteDialogueText(FName RowName)
 		FJMS_DialogueData* Row = JMSDialogueDataTable->FindRow<FJMS_DialogueData>(RowName,TEXT("JMS_AmbassadorWindow"),true);
 		TalkingNameRichTextBlock->SetText(Row->NPCName);
 		logText = Row->DialogueText;
+		if(Row->TextVoice != nullptr)
+		{
+			
+		}
 		StartDialogueTyping();
-		UpdateSelectBox(Row->Choices);
+		UpdateSelectBox(Row->Choices,Row->NextDialogueIDs);
 		if(Row->NextDialogueIDs.Num() > 0)
 		{
 			NextTextName = Row->NextDialogueIDs[0];
@@ -166,6 +180,11 @@ void UJMS_AmbassadorWindow::StartDialogueTyping()
 	bIsTalking = true;
 	// 타이핑 진행 상태 초기화
 	CurrentTextIndex = 0;
+
+	if(TypingSpeed == 0)
+	{
+		TypingSpeed = 100;
+	}
 	
 	GetWorld()->GetTimerManager().SetTimer(
 	TypingTimerHandle,
@@ -205,20 +224,18 @@ void UJMS_AmbassadorWindow::SetDialogueTyping()
 
 
 
-void UJMS_AmbassadorWindow::EndDialogueText_Implementation()
-{
-	
-	// IMC되돌리기
-	AChaseCatCharacter* Chaaar = Cast<AChaseCatCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	if(Chaaar)
-	{
-		Chaaar->SetIMCEndDialogueText();
-	}
 
+void UJMS_AmbassadorWindow::StartDialogueText(FName Name)
+{
+	ToggleTextView();
+
+	WriteDialogueText(Name);
+	
 }
 
 
-void UJMS_AmbassadorWindow::NextDialogueText_Implementation()
+
+void UJMS_AmbassadorWindow::NextDialogueText()
 {
 
 	if(bIsTalking)
@@ -252,16 +269,18 @@ void UJMS_AmbassadorWindow::NextDialogueText_Implementation()
 		}
 	}
 
-		
-	
-	
-
 }
 
-void UJMS_AmbassadorWindow::StartDialogueText_Implementation(FName Name)
+void UJMS_AmbassadorWindow::EndDialogueText()
 {
-	ToggleTextView();
-
 	
+	// IMC되돌리기
+	AChaseCatCharacter* Chaaar = Cast<AChaseCatCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	if(Chaaar)
+	{
+		Chaaar->SetIMCEndDialogueText();
+	}
+
 }
+
 

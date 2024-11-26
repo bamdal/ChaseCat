@@ -7,6 +7,7 @@
 #include "JMS_AmbassadorWindow.generated.h"
 
 
+class UJMS_SelectButton;
 class UButton;
 struct FJMS_DialogueData;
 class URichTextBlock;
@@ -36,11 +37,11 @@ public:
 	URichTextBlock* TalkingNameRichTextBlock;
 
 	UPROPERTY()
-	TMap<UButton*, int32> ButtonIndexMap;
+	TArray<UJMS_SelectButton*> ChoiceButtons;
 	
 	// 선택지 생성 함수
 	UFUNCTION(BlueprintCallable)
-	void UpdateSelectBox(TArray<FText> Choices);
+	void UpdateSelectBox(TArray<FText> Choices,TArray<FName> NextDialogueIDs);
 
 	// 선택지 창에서의 버튼 클릭
 	UFUNCTION()
@@ -54,15 +55,15 @@ public:
 	
 
 	// 텍스트 창 처음시작 함수
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void StartDialogueText(FName Name);
 
 	// 텍스트 창 자동완성 , 다음 텍스트 넘기기
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void NextDialogueText();
 
 	// 텍스트창 종료
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void EndDialogueText();
 
 	// 다음 텍스트 rowname저장

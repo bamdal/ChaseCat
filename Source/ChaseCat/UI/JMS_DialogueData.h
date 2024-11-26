@@ -46,6 +46,12 @@ struct FJMS_DialogueData : public FTableRowBase
 	// 대화 상태 (예: 시작, 진행, 종료 등)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EDialogueState DialogueState;
+
+	// 대사 출력
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundWave* TextVoice;
+
+
 	
 };
 
