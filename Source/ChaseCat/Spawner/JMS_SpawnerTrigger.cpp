@@ -19,7 +19,7 @@ AJMS_SpawnerTrigger::AJMS_SpawnerTrigger()
 	    
 	Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
 	Capsule->SetupAttachment(Root);
-    
+	Capsule->SetCollisionProfileName(TEXT("FindPlayerProfile"));
 
 	
 }

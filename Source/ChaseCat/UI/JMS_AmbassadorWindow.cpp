@@ -6,6 +6,8 @@
 #include "JMS_DialogueData.h"
 #include "JMS_SelectButton.h"
 #include "ChaseCat/ChaseCatCharacter.h"
+#include "ChaseCat/Item/JMS_Item.h"
+#include "Components/AudioComponent.h"
 #include "Components/Button.h"
 
 #include "Components/RichTextBlock.h"
@@ -20,7 +22,8 @@ void UJMS_AmbassadorWindow::NativeOnInitialized()
 
 
 	// DataTable 경로 설정
-	const FSoftObjectPath DataTablePath(TEXT("/Game/BP/UI/TextData/DataTable_JMSDialogueData.DataTable_JMSDialogueData"));
+	const FSoftObjectPath DataTablePath(
+		TEXT("/Game/BP/UI/TextData/DataTable_JMSDialogueData.DataTable_JMSDialogueData"));
 
 	// 데이터 테이블 비동기 가져오기
 	TSoftObjectPtr<UDataTable> DataTableSoftObject(DataTablePath);
@@ -39,26 +42,28 @@ void UJMS_AmbassadorWindow::NativeOnInitialized()
 	}
 
 	DialogueTextBox = Cast<URichTextBlock>(GetWidgetFromName(TEXT("DialogueText")));
-	if(DialogueTextBox == nullptr)
+	if (DialogueTextBox == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1,10.0f,FColor::Red,FString::Printf(TEXT("%s DialogueTextBox is null"),*this->GetClass()->GetName()));
-
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,
+		                                 FString::Printf(
+			                                 TEXT("%s DialogueTextBox is null"), *this->GetClass()->GetName()));
 	}
 
 	VerticalBox = Cast<UVerticalBox>(GetWidgetFromName(TEXT("SelectBox")));
-	if(VerticalBox == nullptr)
+	if (VerticalBox == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1,10.0f,FColor::Red,FString::Printf(TEXT("%s VerticalBox is null"),*this->GetClass()->GetName()));
-
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,
+		                                 FString::Printf(TEXT("%s VerticalBox is null"), *this->GetClass()->GetName()));
 	}
 
 	TalkingNameRichTextBlock = Cast<URichTextBlock>(GetWidgetFromName(TEXT("TalkingName")));
-	if(TalkingNameRichTextBlock == nullptr)
+	if (TalkingNameRichTextBlock == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1,10.0f,FColor::Red,FString::Printf(TEXT("%s TalkingNameRichTextBlock is null"),*this->GetClass()->GetName()));
-
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red,
+		                                 FString::Printf(
+			                                 TEXT("%s TalkingNameRichTextBlock is null"),
+			                                 *this->GetClass()->GetName()));
 	}
-
 }
 
 
@@ -66,7 +71,10 @@ void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices, TArray<FName>
 {
 	if (VerticalBox == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::Red, FString::Printf(TEXT("%s VerticalBox is null! Cannot update SelectBox."),*this->GetClass()->GetName()));
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red,
+		                                 FString::Printf(
+			                                 TEXT("%s VerticalBox is null! Cannot update SelectBox."),
+			                                 *this->GetClass()->GetName()));
 		return;
 	}
 
@@ -83,7 +91,7 @@ void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices, TArray<FName>
 		// 선택지가 생겼으므로 넘기기 불가능
 		bIsDialoguing = false;
 
-		if (NewButton )
+		if (NewButton)
 		{
 			// 버튼 텍스트 설정
 			NewButton->SetButtonText(Choices[i]);
@@ -103,26 +111,23 @@ void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices, TArray<FName>
 			VerticalBox->AddChild(NewButton);
 
 			// 버튼에 개인 인덱스 추가
-
-			
 		}
 	}
 }
 
 void UJMS_AmbassadorWindow::OnSelectButtonClicked()
 {
-
 	// 클릭된 버튼을 매핑에서 찾기
 	for (UJMS_SelectButton* Element : ChoiceButtons)
 	{
 		if (Element->IsHovered()) // 현재 눌린 버튼인지 확인
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f,FColor::Orange, FString::Printf(TEXT("%s -> %s"),*this->GetName(),*Element->GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange,
+			                                 FString::Printf(TEXT("%s -> %s"), *this->GetName(), *Element->GetName()));
 			NextTextName = Element->GetNextDialogueID();
 		}
 	}
 
-	
 
 	bIsDialoguing = true;
 
@@ -132,66 +137,62 @@ void UJMS_AmbassadorWindow::OnSelectButtonClicked()
 
 void UJMS_AmbassadorWindow::ToggleTextView()
 {
-	if(GetVisibility() == ESlateVisibility::Visible)
+	if (GetVisibility() == ESlateVisibility::Visible)
 	{
 		SetVisibility(ESlateVisibility::Hidden);
 	}
 	else
 	{
 		SetVisibility(ESlateVisibility::Visible);
-		
 	}
 }
 
 
 void UJMS_AmbassadorWindow::WriteDialogueText(FName RowName)
 {
-	if(RowName!=NAME_None)
+	if (RowName != NAME_None)
 	{
-		FJMS_DialogueData* Row = JMSDialogueDataTable->FindRow<FJMS_DialogueData>(RowName,TEXT("JMS_AmbassadorWindow"),true);
+		FJMS_DialogueData* Row = JMSDialogueDataTable->FindRow<FJMS_DialogueData>(
+			RowName,TEXT("JMS_AmbassadorWindow"), true);
 		TalkingNameRichTextBlock->SetText(Row->NPCName);
 		logText = Row->DialogueText;
-		if(Row->TextVoice != nullptr)
+		if (Row->TextVoice != nullptr)
 		{
-			
+			TalkingItem->PlayVoice(Row->TextVoice);
 		}
 		StartDialogueTyping();
-		UpdateSelectBox(Row->Choices,Row->NextDialogueIDs);
-		if(Row->NextDialogueIDs.Num() > 0)
+		UpdateSelectBox(Row->Choices, Row->NextDialogueIDs);
+		if (Row->NextDialogueIDs.Num() > 0)
 		{
 			NextTextName = Row->NextDialogueIDs[0];
 		}
-		
-		
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1,5.0f,FColor::Blue,FString::Printf(TEXT("%s 대화 종료"),*this->GetName()));
-
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("%s 대화 종료"), *this->GetName()));
 	}
-
 }
 
 
 void UJMS_AmbassadorWindow::StartDialogueTyping()
 {
 	DialogueTextBox->SetText(FText::GetEmpty());
-	
+
 	bIsTalking = true;
 	// 타이핑 진행 상태 초기화
 	CurrentTextIndex = 0;
 
-	if(TypingSpeed == 0)
+	if (TypingSpeed == 0)
 	{
 		TypingSpeed = 100;
 	}
-	
+
 	GetWorld()->GetTimerManager().SetTimer(
-	TypingTimerHandle,
-	this,
-	&UJMS_AmbassadorWindow::UpdateDialogueText,
-	1/TypingSpeed,
-	true
+		TypingTimerHandle,
+		this,
+		&UJMS_AmbassadorWindow::UpdateDialogueText,
+		1 / TypingSpeed,
+		true
 	);
 }
 
@@ -219,68 +220,57 @@ void UJMS_AmbassadorWindow::SetDialogueTyping()
 {
 	DialogueTextBox->SetText(logText);
 	bIsTalking = true;
-
 }
 
 
-
-
-void UJMS_AmbassadorWindow::StartDialogueText(FName Name)
+void UJMS_AmbassadorWindow::StartDialogueText(FName Name, AJMS_Item* CalledItem)
 {
 	ToggleTextView();
-
+	TalkingItem = CalledItem;
 	WriteDialogueText(Name);
-	
 }
-
 
 
 void UJMS_AmbassadorWindow::NextDialogueText()
 {
-
-	if(bIsTalking)
+	if (bIsTalking)
 	{
 		// 말하고 있는 중에 다음 버튼 눌렀으므로 대화창 끝까지 한번에 출력
 		GetWorld()->GetTimerManager().ClearTimer(TypingTimerHandle);
 		SetDialogueTyping();
-	
+		TalkingItem->StopVoice();
 	}
 	else
 	{
-		if(NextTextName == TEXT(""))
+		if (NextTextName == TEXT(""))
 		{
+			TalkingItem->StopVoice();
 			EndDialogueText();
-
 		}
-
 	}
 
 	// 완성되자마자 넘어가기 방지용 부울
-	if(bIsTalking)
+	if (bIsTalking)
 	{
 		bIsTalking = false;
 	}
 	else
 	{
 		// 다음 텍스트로 넘어가기 가능할때
-		if(bIsDialoguing)
+		if (bIsDialoguing)
 		{
+			TalkingItem->StopVoice();
 			WriteDialogueText(NextTextName);
 		}
 	}
-
 }
 
 void UJMS_AmbassadorWindow::EndDialogueText()
 {
-	
 	// IMC되돌리기
 	AChaseCatCharacter* Chaaar = Cast<AChaseCatCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	if(Chaaar)
+	if (Chaaar)
 	{
 		Chaaar->SetIMCEndDialogueText();
 	}
-
 }
-
-

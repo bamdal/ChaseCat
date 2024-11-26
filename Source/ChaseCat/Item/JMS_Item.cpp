@@ -5,6 +5,7 @@
 
 #include "ChaseCat/ChaseCatCharacter.h"
 #include "ChaseCat/JMS_MassGameInstance.h"
+#include "Components/AudioComponent.h"
 
 // Sets default values
 AJMS_Item::AJMS_Item()
@@ -19,6 +20,9 @@ AJMS_Item::AJMS_Item()
 	Mesh->SetupAttachment(Root);
 	Mesh->SetRelativeRotation(FRotator(0, -90.0f, 0));
 	Mesh->SetCollisionProfileName(TEXT("ItemProfile"));
+
+	Audio = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
+	Audio->SetupAttachment(Root);
 
 }
 
@@ -80,6 +84,17 @@ void AJMS_Item::Dissolve(float DissolveTime)
 		val->SetScalarParameterValue(FName("Dissolve"),DissolveTime);
 		i++;
 	}
+}
+
+void AJMS_Item::PlayVoice(USoundWave* NewSound)
+{
+	Audio->SetSound(NewSound);
+	Audio->Play();
+}
+
+void AJMS_Item::StopVoice()
+{
+	Audio->Stop();
 }
 
 // Called when the game starts or when spawned

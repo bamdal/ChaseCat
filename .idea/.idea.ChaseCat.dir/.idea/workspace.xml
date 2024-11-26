@@ -8,11 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="51b42244-6654-4607-87dc-47ab79cef8cc" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ChaseCat.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/BP/Factory/BP_JMS_MassGameInstance.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP/Factory/BP_JMS_MassGameInstance.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_Item.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_Item.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_Item.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Item/JMS_Item.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/Spawner/JMS_SpawnerTrigger.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/Spawner/JMS_SpawnerTrigger.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_AmbassadorWindow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_AmbassadorWindow.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_AmbassadorWindow.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_AmbassadorWindow.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_DialogueData.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ChaseCat/UI/JMS_DialogueData.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +172,7 @@
       <updated>1732530591835</updated>
       <workItem from="1732530593945" duration="7395000" />
       <workItem from="1732579311761" duration="2163000" />
-      <workItem from="1732581495891" duration="4372000" />
+      <workItem from="1732581495891" duration="6465000" />
     </task>
     <servers />
   </component>

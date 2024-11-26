@@ -7,6 +7,7 @@
 #include "JMS_AmbassadorWindow.generated.h"
 
 
+class AJMS_Item;
 class UJMS_SelectButton;
 class UButton;
 struct FJMS_DialogueData;
@@ -23,12 +24,11 @@ class CHASECAT_API UJMS_AmbassadorWindow : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
 	// 데이터 테이블
 	UPROPERTY()
 	UDataTable* JMSDialogueDataTable;
-	
-	
+
+
 	// 선택지가 생길 vertical박스
 	UPROPERTY(EditAnywhere)
 	UVerticalBox* VerticalBox;
@@ -38,10 +38,10 @@ public:
 
 	UPROPERTY()
 	TArray<UJMS_SelectButton*> ChoiceButtons;
-	
+
 	// 선택지 생성 함수
 	UFUNCTION(BlueprintCallable)
-	void UpdateSelectBox(TArray<FText> Choices,TArray<FName> NextDialogueIDs);
+	void UpdateSelectBox(TArray<FText> Choices, TArray<FName> NextDialogueIDs);
 
 	// 선택지 창에서의 버튼 클릭
 	UFUNCTION()
@@ -52,11 +52,17 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void WriteDialogueText(FName RowName);
-	
 
-	// 텍스트 창 처음시작 함수
+	UPROPERTY()
+	AJMS_Item* TalkingItem;
+
+	/**
+	 * 텍스트 창 처음시작 함수
+	 * @param Name 데이터 테이블의 시작 이름
+	 * @param CalledItem 이 텍스트를 띄운 오브젝트
+	 */
 	UFUNCTION(BlueprintCallable)
-	void StartDialogueText(FName Name);
+	void StartDialogueText(FName Name, AJMS_Item* CalledItem);
 
 	// 텍스트 창 자동완성 , 다음 텍스트 넘기기
 	UFUNCTION(BlueprintCallable)
@@ -75,7 +81,7 @@ public:
 	URichTextBlock* DialogueTextBox;
 
 	// 대화 저장 장소
-	UPROPERTY(VisibleAnywhere,BLUEprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BLUEprintReadWrite)
 	FText logText;
 
 	// 점진적 텍스트 진행용 인덱스
@@ -83,9 +89,9 @@ public:
 	int32 CurrentTextIndex = 0;
 
 	// 점진적 텍스트 속도
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TypingSpeed = 10;
-	
+
 	// 호출시 해당 텍스트를 한글자 한글자 말하듯이 출력되게 함
 	UFUNCTION(BlueprintCallable)
 	void StartDialogueTyping();

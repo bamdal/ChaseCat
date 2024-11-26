@@ -21,6 +21,9 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UStaticMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UAudioComponent* Audio;
+
 	UFUNCTION(BlueprintNativeEvent)
 	bool StartGrab();
 	
@@ -45,7 +48,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Dissolve(float DissolveTime);
 
-	
+	UFUNCTION(BlueprintCallable)
+	void PlayVoice(USoundWave* NewSound);
+
+	UFUNCTION(BlueprintCallable)
+	void StopVoice();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
