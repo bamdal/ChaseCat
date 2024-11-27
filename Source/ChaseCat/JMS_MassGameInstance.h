@@ -86,6 +86,8 @@ public:
 
 	virtual void Init() override;
 
+	
+	
 	void ReloadLevel(class UWorld* World);
 
 	virtual void BeginDestroy() override;

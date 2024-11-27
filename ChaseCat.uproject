@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.4",
+	"EngineAssociation": "5.5",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -33,15 +33,11 @@
 			"Enabled": true
 		},
 		{
-			"Name": "MassCrowd",
+			"Name": "ZoneGraph",
 			"Enabled": true
 		},
 		{
-			"Name": "MassAI",
-			"Enabled": true
-		},
-		{
-			"Name": "MassEntity",
+			"Name": "ZoneGraphAnnotations",
 			"Enabled": true
 		},
 		{
@@ -49,11 +45,15 @@
 			"Enabled": true
 		},
 		{
-			"Name": "ZoneGraph",
+			"Name": "MassEntity",
 			"Enabled": true
 		},
 		{
-			"Name": "ZoneGraphAnnotations",
+			"Name": "MassAI",
+			"Enabled": true
+		},
+		{
+			"Name": "MassCrowd",
 			"Enabled": true
 		}
 	]

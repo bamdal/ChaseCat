@@ -15,7 +15,7 @@
 UJMS_SelectButton::UJMS_SelectButton()
 {
 	// CreateDefaultSubobject로 UImage 생성
-	OverlayWidget =  CreateDefaultSubobject<UVerticalBox>(TEXT("VerticalBoxWidget"));
+	OverlayWidget =  CreateDefaultSubobject<UOverlay>(TEXT("OverlayBoxWidget"));
 	
 	ButtonImage = CreateDefaultSubobject<UImage>(TEXT("ButtonImage"));
 
@@ -25,7 +25,7 @@ UJMS_SelectButton::UJMS_SelectButton()
 void UJMS_SelectButton::NativeConstruct()
 {
 
-
+	
 	if (OverlayWidget)
 	{
 		// OverlayWidget을 버튼의 자식으로 추가
@@ -38,21 +38,21 @@ void UJMS_SelectButton::NativeConstruct()
 		}
 
 		// UVerticalBox를 사용하여 이미지와 텍스트 배치
-		UVerticalBox* VerticalBox = NewObject<UVerticalBox>(this);
-		if (VerticalBox)
+		UOverlay* OverlayBox = NewObject<UOverlay>(this);
+		if (OverlayBox)
 		{
 			// VerticalBox를 OverlayWidget에 추가
-			UVerticalBoxSlot* VerticalBoxSlot = OverlayWidget->AddChildToVerticalBox(VerticalBox);
-			if (VerticalBoxSlot)
+			UOverlaySlot* OverlayBoxSlot = OverlayWidget->AddChildToOverlay(OverlayBox);
+			if (OverlayBoxSlot)
 			{
-				VerticalBoxSlot->SetHorizontalAlignment(HAlign_Fill);
-				VerticalBoxSlot->SetVerticalAlignment(VAlign_Fill);
+				OverlayBoxSlot->SetHorizontalAlignment(HAlign_Fill);
+				OverlayBoxSlot->SetVerticalAlignment(VAlign_Fill);
 			}
 
 			// 이미지 추가
 			if (ButtonImage)
 			{
-				UVerticalBoxSlot* ImageSlot = VerticalBox->AddChildToVerticalBox(ButtonImage);
+				UOverlaySlot* ImageSlot = OverlayBox->AddChildToOverlay(ButtonImage);
 				if (ImageSlot)
 				{
 					ImageSlot->SetHorizontalAlignment(HAlign_Fill);
@@ -63,7 +63,7 @@ void UJMS_SelectButton::NativeConstruct()
 			// 텍스트 추가
 			if (ButtonText)
 			{
-				UVerticalBoxSlot* TextSlot = VerticalBox->AddChildToVerticalBox(ButtonText);
+				UOverlaySlot* TextSlot = OverlayBox->AddChildToOverlay(ButtonText);
 				if (TextSlot)
 				{
 					TextSlot->SetHorizontalAlignment(HAlign_Left); // 텍스트 왼쪽 정렬

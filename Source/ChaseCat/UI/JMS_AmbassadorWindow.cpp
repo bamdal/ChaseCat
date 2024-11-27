@@ -9,6 +9,7 @@
 #include "ChaseCat/Item/JMS_Item.h"
 #include "Components/AudioComponent.h"
 #include "Components/Button.h"
+#include "Components/ButtonSlot.h"
 
 #include "Components/RichTextBlock.h"
 #include "Components/TextBlock.h"
@@ -85,7 +86,10 @@ void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices, TArray<FName>
 	for (int32 i = 0; i < Choices.Num(); ++i)
 	{
 		// 버튼 생성
+		//UJMS_SelectButton* NewButton = CreateWidget<UJMS_SelectButton>(this, TSubclassOf<UJMS_SelectButton> 로 받아와서 적용 가능);
 		UJMS_SelectButton* NewButton = NewObject<UJMS_SelectButton>(this);
+		UVerticalBoxSlot* ButtonSlot = VerticalBox->AddChildToVerticalBox(NewButton);
+		ButtonSlot->SetPadding(FMargin(0, 5, 0, 5));
 		NewButton->NativeConstruct();
 		//UTextBlock* ButtonText = NewObject<UTextBlock>(this);
 		// 선택지가 생겼으므로 넘기기 불가능
@@ -104,9 +108,8 @@ void UJMS_AmbassadorWindow::UpdateSelectBox(TArray<FText> Choices, TArray<FName>
 			NewButton->SetIndex(i);
 			NewButton->SetNextNextDialogueID(NextDialogueIDs[i]);
 			ChoiceButtons.Add(NewButton);
-			// VerticalBox에 버튼 추가
-			VerticalBox->AddChild(NewButton);
-
+	
+			
 			// 버튼에 개인 인덱스 추가
 		}
 	}

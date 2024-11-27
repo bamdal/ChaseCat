@@ -74,7 +74,6 @@ void UJMS_ItemComponent::BeginPlay()
 	Super::BeginPlay();
 
 	WidgetComponent->InitWidget();
-
 	// interaction 가능한 UI 초기 좌표 설정
 	const FVector box = BoxComponent->GetScaledBoxExtent();
 	WidgetComponent->SetRelativeLocation(FVector(box.X, 0, 0));
