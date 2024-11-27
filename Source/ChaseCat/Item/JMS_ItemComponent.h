@@ -66,7 +66,7 @@ public:
 	// 인터페이스를 통해 호출되는 상호작용 호출
 	UFUNCTION(BlueprintCallable, meta=(DisplayName = "Interaction"), Category = "Interaction")
 	void Interaction_Implementation();
-
+	
 	// 상호작용 호출이 BP로 연계될수있게하는 이벤트
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FOnInteractionEvent OnInteractionEvent;

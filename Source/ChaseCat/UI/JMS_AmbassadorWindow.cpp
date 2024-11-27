@@ -227,7 +227,7 @@ void UJMS_AmbassadorWindow::SetDialogueTyping()
 void UJMS_AmbassadorWindow::StartDialogueText(FName Name, AJMS_Item* CalledItem)
 {
 	ToggleTextView();
-	if(TalkingItem)
+	if(CalledItem)
 	{
 		TalkingItem = CalledItem;
 	}
