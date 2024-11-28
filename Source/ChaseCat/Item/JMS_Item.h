@@ -50,17 +50,24 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void ThrowItem_Implementation();
 
+	// 디졸브 효과 실행
 	UFUNCTION(BlueprintCallable)
 	void Dissolve(float DissolveTime);
 
+	// 설정된 보이스 시작
 	UFUNCTION(BlueprintCallable)
 	void PlayVoice(USoundWave* NewSound);
 
+	// 재생중이던 보이스 정지
 	UFUNCTION(BlueprintCallable)
 	void StopVoice();
 
+	// 아이템 떨어뜨리기
 	UFUNCTION(BlueprintCallable)
 	void PlayerDefenceDropItem();
+
+	UFUNCTION(BlueprintNativeEvent)
+	void ItemEventTrigger(FName EventTrigger);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

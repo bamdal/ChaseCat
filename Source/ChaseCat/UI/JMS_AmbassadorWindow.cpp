@@ -161,6 +161,14 @@ void UJMS_AmbassadorWindow::WriteDialogueText(FName RowName)
 		{
 			TalkingItem->PlayVoice(Row->TextVoice);
 		}
+		if(TalkingItem && Row->EventTrigger.Num() > 0)
+		{
+			for (FName Element : Row->EventTrigger)
+			{
+				TalkingItem->ItemEventTrigger(Element);
+			}
+			
+		}
 		StartDialogueTyping();
 		UpdateSelectBox(Row->Choices, Row->NextDialogueIDs);
 		if (Row->NextDialogueIDs.Num() > 0)

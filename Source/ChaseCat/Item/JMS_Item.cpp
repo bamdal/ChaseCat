@@ -48,9 +48,9 @@ bool AJMS_Item::StartGrab_Implementation()
 				// 콜리전 끄기
 				Mesh->SetSimulatePhysics(false);
 				Mesh->AttachToComponent(RootComponent,FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-				if(Mesh->GetRelativeRotation() == FRotator::ZeroRotator)
-					Mesh->SetRelativeRotation(FRotator(180.0f, 0.0f, 90.0f));
 				Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+				if(Mesh->GetRelativeRotation() == FRotator::ZeroRotator)
+					Mesh->SetRelativeRotation(FRotator(0.0f, 90.0f, 180.0f));
 				RootComponent->AttachToComponent(AttachHand,FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 				ItemComponent->ItemFocusDisable();
 				return true;
@@ -134,6 +134,12 @@ void AJMS_Item::PlayerDefenceDropItem()
 	}
 
 }
+
+void AJMS_Item::ItemEventTrigger_Implementation(FName EventTrigger)
+{
+
+}
+
 
 // Called when the game starts or when spawned
 void AJMS_Item::BeginPlay()

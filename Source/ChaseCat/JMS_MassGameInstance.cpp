@@ -94,7 +94,6 @@ void UJMS_MassGameInstance::AddDestinationComponent(UJMS_UI_DestinationComponent
 		ActiveDestinations.Add(DestComp);
 		
 	}
-	
 }
 
 void UJMS_MassGameInstance::NextTextDialogueFunc()
@@ -104,6 +103,8 @@ void UJMS_MassGameInstance::NextTextDialogueFunc()
 
 }
 
+
+
 void UJMS_MassGameInstance::RemoveAllDestinationComponent()
 {
 	ActiveDestinations.Empty();
@@ -112,7 +113,7 @@ void UJMS_MassGameInstance::RemoveAllDestinationComponent()
 
 void UJMS_MassGameInstance::SortActiveDestinations()
 {
-	if (ActiveDestinations.Num() == 0)
+	if (ActiveDestinations.Num() == 0 && PlayerSearchIndex == 0)
 	{
 		auto It = ActiveDestinationsMap.CreateConstIterator();
 		if(It)
@@ -120,17 +121,29 @@ void UJMS_MassGameInstance::SortActiveDestinations()
 			PlayerSearchIndex = It->Key;
 		}
 		
-		
-		return; // 정렬할 대상이 없을 때
 	}
 
 	// Map의 키값들을 가져와 정렬
 	TArray<int32> SortedKeys;
 	ActiveDestinationsMap.GetKeys(SortedKeys);
 	SortedKeys.Sort(); // 오름차순 정렬
+	
+	TMap<int32,  UJMS_UI_DestinationComponent*> SortedActiveDestinationsMap;
+	for (int32 Key : SortedKeys)
+	{
+		if (ActiveDestinationsMap.Contains(Key))
+		{
+			SortedActiveDestinationsMap.Add(Key, ActiveDestinationsMap[Key]);
+		}
+	}
+	ActiveDestinationsMap = SortedActiveDestinationsMap;
 	if(SortedKeys.Num()>0)
 	{
-		PlayerSearchIndex = SortedKeys[0];
+
+		if(PlayerSearchIndex < SortedKeys[0])
+			PlayerSearchIndex = SortedKeys[0];
+
+
 		// Map의 마지막 Key값 가져오기
 		int32 CurrentIndex = SortedKeys.Num() > 0 ? SortedKeys.Last() : 0;
 
@@ -156,6 +169,8 @@ void UJMS_MassGameInstance::SortActiveDestinations()
 		}
 
 	}
+
+
 
 	// ActiveDestinations 배열도 Key값 기준으로 정렬
 	ActiveDestinations.Sort([](const UJMS_UI_DestinationComponent& A, const UJMS_UI_DestinationComponent& B) {

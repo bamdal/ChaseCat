@@ -41,7 +41,7 @@ struct FJMS_DialogueData : public FTableRowBase
 
 	// 대화 이벤트 트리거
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName EventTrigger;
+	TArray<FName> EventTrigger;
 
 	// 대화 상태 (예: 시작, 진행, 종료 등)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

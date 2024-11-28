@@ -71,6 +71,8 @@ public:
 	UFUNCTION()
 	void NextTextDialogueFunc();
 
+
+
 	// 플레이어 캐릭터
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	AChaseCatCharacter* ChaseCatCharacter;
