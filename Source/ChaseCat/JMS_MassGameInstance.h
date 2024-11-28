@@ -47,14 +47,15 @@ public:
 	TMap<int32, UJMS_UI_DestinationComponent*> ActiveDestinationsMap;
 
 	// 현재 탐색중인 Map의 인덱스 
-	UPROPERTY(visibleAnywhere,BlueprintReadOnly)
+	UPROPERTY(visibleAnywhere,BlueprintReadWrite)
 	int32 PlayerSearchIndex = 0;
 
 	// 다음 인덱스 번호로 옮기기 true면 존재함 false면 없음
 	UFUNCTION(BlueprintCallable)
 	bool NextDestinationIndex();
 
-
+	UFUNCTION(BlueprintCallable)
+	void ClearDestinaion();
 
 	// 길찾기 델리게이트로 불릴 함수
 	UFUNCTION()

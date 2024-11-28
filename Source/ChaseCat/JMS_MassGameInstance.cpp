@@ -77,6 +77,12 @@ bool UJMS_MassGameInstance::NextDestinationIndex()
 	
 }
 
+void UJMS_MassGameInstance::ClearDestinaion()
+{
+	ActiveDestinations.Empty();
+	ActiveDestinationsMap.Empty();
+}
+
 void UJMS_MassGameInstance::AddDestinationComponent(UJMS_UI_DestinationComponent* DestComp)
 {
 
@@ -139,10 +145,7 @@ void UJMS_MassGameInstance::SortActiveDestinations()
 	ActiveDestinationsMap = SortedActiveDestinationsMap;
 	if(SortedKeys.Num()>0)
 	{
-
-		if(PlayerSearchIndex < SortedKeys[0])
-			PlayerSearchIndex = SortedKeys[0];
-
+		
 
 		// Map의 마지막 Key값 가져오기
 		int32 CurrentIndex = SortedKeys.Num() > 0 ? SortedKeys.Last() : 0;
@@ -173,8 +176,12 @@ void UJMS_MassGameInstance::SortActiveDestinations()
 
 
 	// ActiveDestinations 배열도 Key값 기준으로 정렬
-	ActiveDestinations.Sort([](const UJMS_UI_DestinationComponent& A, const UJMS_UI_DestinationComponent& B) {
+	if(ActiveDestinations.Num()>0)
+	{
+		ActiveDestinations.Sort([](const UJMS_UI_DestinationComponent& A, const UJMS_UI_DestinationComponent& B) {
 		return A.Index < B.Index;
-	});
+		});
+	}
+
 }
 

@@ -292,4 +292,5 @@ void UJMS_AmbassadorWindow::EndDialogueText()
 	{
 		Chaaar->SetIMCEndDialogueText();
 	}
+	TalkingItem->EndAmbassadorWindow();
 }

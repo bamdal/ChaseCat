@@ -29,6 +29,7 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UJMS_ItemComponent* ItemComponent;
 
+	// 잡기 Grab ---------------------------------------------------------------------
 	UFUNCTION(BlueprintNativeEvent)
 	bool StartGrab();
 	
@@ -44,12 +45,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void EndGrab();
 
+	// 던지기 Throw ---------------------------------------------------------------------
 	UFUNCTION(BlueprintCallable)
 	void ThrowItem();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void ThrowItem_Implementation();
 
+	// 아이템 떨어뜨리기
+	UFUNCTION(BlueprintCallable)
+	void PlayerDefenceDropItem();
+
+	// ---------------------------------------------------------------------
+
+	
 	// 디졸브 효과 실행
 	UFUNCTION(BlueprintCallable)
 	void Dissolve(float DissolveTime);
@@ -62,12 +71,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void StopVoice();
 
-	// 아이템 떨어뜨리기
-	UFUNCTION(BlueprintCallable)
-	void PlayerDefenceDropItem();
 
+	// 대사에 트리거가 있을경우 실행
 	UFUNCTION(BlueprintNativeEvent)
 	void ItemEventTrigger(FName EventTrigger);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void EndAmbassadorWindow();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -141,6 +141,10 @@ void AJMS_Item::ItemEventTrigger_Implementation(FName EventTrigger)
 }
 
 
+void AJMS_Item::EndAmbassadorWindow_Implementation()
+{
+}
+
 // Called when the game starts or when spawned
 void AJMS_Item::BeginPlay()
 {
